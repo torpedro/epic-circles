@@ -1,0 +1,21 @@
+html,
+body {
+	text-align: center;
+}
+
+div {
+	margin: auto;
+}
+
+.canvas {
+	border: 1px solid #444444;
+}
+
+.inversion-circle {
+	stroke: rgb(117, 0, 0);
+	stroke-dasharray: 2, 2;
+}
+
+.inversion-origin {
+	stroke: rgb(117, 0, 0);
+}
