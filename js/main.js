@@ -10,28 +10,31 @@ $(function() {
 
 
 	var circle = new Circle(w/2+100, h/2+100, 100);
-	var points = circle.calculatePoints(50);
-	$.each(points, function(i, p) { p.drawOn(paper); });
+	circle.drawOn(paper);
 
-	var invertedPoints = [];
-	var invertPoints = function(invCircle, points) {
-		$.each(invertedPoints, function(i, point) {
-			point.remove();
+	var invertedShapes = [];
+	var invert = function(invCircle) {
+		$.each(invertedShapes, function(i, shape) {
+			shape.remove();
 		});
-		invertedPoints = [];
-		$.each(points, function(i, point) {
-			var p = invCircle.invertPoint(point);
-			p.drawOn(paper);
-			invertedPoints.push(p);
-		});
+
+		invertedShapes = [];
+		var invertedCircle = invCircle.invertCircle(circle);
+		invertedCircle.drawOn(paper);
+		invertedShapes.push(invertedCircle);
 	}
 
 
 	var invCircle = new Circle(w/2, h/2, 80);
 	invCircle.drawOn(paper);
+	invCircle.setType('inversion');
+
 	invCircle.on('moved', function() {
-		invertPoints(invCircle, points);
+		invert(invCircle);
+	});
+	circle.on('moved', function() {
+		invert(invCircle);
 	});
 
-	invertPoints(invCircle, points);
+	invert(invCircle);
 });

@@ -27,15 +27,29 @@ svg {
 	background: #eee;
 }
 
-.inversion-circle {
+.inversion.circle {
 	stroke: rgb(117, 0, 0);
 	stroke-dasharray: 2, 2;
-	fill: rgba(255, 0, 0, 0.1);
+	/*fill: rgba(255, 0, 0, 0.1);*/
 }
 
-.inversion-origin {
+.inversion.origin {
 	stroke: rgb(117, 0, 0);
-	fill: rgba(255, 0, 0, 0.1);
+	fill: rgba(255, 0, 0, 0.2);
+	cursor: move;
+}
+
+
+.inverted.circle,
+.inverted.origin {
+	stroke: rgba(0, 0, 0, 0.7);
+	stroke-dasharray: 2, 2;
+}
+
+.normal.origin {
+	stroke: rgba(0, 0, 0, 0.8);
+	stroke-dasharray: 2, 2;
+	fill: rgba(0, 0, 255, 0.5);
 	cursor: move;
 }
 
@@ -45,3 +59,6 @@ svg {
 	text-align: center;
 	bottom: 30px;
 }
+
+
+circle
