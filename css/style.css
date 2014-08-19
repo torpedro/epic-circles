@@ -14,8 +14,11 @@ div {
 .inversion-circle {
 	stroke: rgb(117, 0, 0);
 	stroke-dasharray: 2, 2;
+	fill: rgba(255, 0, 0, 0.1);
 }
 
 .inversion-origin {
 	stroke: rgb(117, 0, 0);
+	fill: rgba(255, 0, 0, 0.1);
+	cursor: move;
 }
