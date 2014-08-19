@@ -32,17 +32,17 @@ var Canvas = xbase.Class.extend({
 	update: function() {
 		if (!this._changed) return;
 		this._changed = false;
-
+		
 		var self = this;
-		$.each(this._invertedShapes, function(i, shape) {
-			shape.remove();
-		});
-		this._invertedShapes = [];
-
 		$.each(this._shapes, function(i, shape) {
-			var invShape = self._invCircle.invertShape(shape);
-			invShape.drawOn(self._paper);
-			self._invertedShapes.push(invShape);
+			var newInvShape = self._invCircle.invertShape(shape);
+
+			if (i < self._invertedShapes.length) {
+				self._invertedShapes[i].copy(newInvShape);
+			} else {
+				self._invertedShapes.push(newInvShape);
+				newInvShape.drawOn(self._paper);
+			}
 		});
 	},
 

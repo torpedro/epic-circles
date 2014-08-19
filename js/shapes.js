@@ -179,6 +179,12 @@ var Circle = xbase.Control.extend({
 		var newCircle = new Circle(cx, cy, r_new);
 		newCircle.setType('inverted');
 		return newCircle;
+	},
+
+
+	copy: function(otherCircle) {
+		this.updatePosition(otherCircle.x, otherCircle.y);
+		this._circle.node.setAttribute('r', otherCircle.r);
 	}
 });
 
