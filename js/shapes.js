@@ -83,7 +83,7 @@ var Circle = xbase.Control.extend({
 		this._circle.node.setAttribute('cy', y);
 		this._origin.node.setAttribute('cx', x);
 		this._origin.node.setAttribute('cy', y);
-		this.trigger('moved');
+		this.trigger('move');
 	},
 
 

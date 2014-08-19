@@ -9,7 +9,7 @@ var Canvas = xbase.Class.extend({
 		this._shapes = [];
 		this._invertedShapes = [];
 
-		var fps = 80;
+		var fps = 60;
 		var self = this;
 		window.setInterval(function() {
 			self.update();
@@ -22,11 +22,17 @@ var Canvas = xbase.Class.extend({
 		this._invCircle = circle;
 		circle.drawOn(this._paper);
 		circle.setType('inversion');
-		this.update();
+		circle.on("move", function() {
+			self._changed = true;
+		});
+		this._changed = true;
 	},
 
 
 	update: function() {
+		if (!this._changed) return;
+		this._changed = false;
+
 		var self = this;
 		$.each(this._invertedShapes, function(i, shape) {
 			shape.remove();
@@ -45,7 +51,10 @@ var Canvas = xbase.Class.extend({
 		var self = this;
 		this._shapes.push(shape);
 		shape.drawOn(this._paper);
-		this.update();
+		shape.on("move", function() {
+			self._changed = true;
+		});
+		this._changed = true;
 	},
 
 	width: function() {
@@ -55,7 +64,7 @@ var Canvas = xbase.Class.extend({
 
 
 $(function() {
-	var canvas = new Canvas();
+	canvas = new Canvas();
 	var x = canvas.width()/2;
 	var y = 500;
 
