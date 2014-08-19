@@ -8,7 +8,13 @@ var Canvas = xbase.Class.extend({
 
 		this._shapes = [];
 		this._invertedShapes = [];
-	},
+
+		var fps = 80;
+		var self = this;
+		window.setInterval(function() {
+			self.update();
+		}, 1000.0/fps);
+	}, 
 
 
 	setInversionCircle: function(circle) {
@@ -16,9 +22,6 @@ var Canvas = xbase.Class.extend({
 		this._invCircle = circle;
 		circle.drawOn(this._paper);
 		circle.setType('inversion');
-		circle.on('moved', function() {
-			self.update();
-		});
 		this.update();
 	},
 
@@ -42,9 +45,6 @@ var Canvas = xbase.Class.extend({
 		var self = this;
 		this._shapes.push(shape);
 		shape.drawOn(this._paper);
-		shape.on('moved', function() {
-			self.update();
-		});
 		this.update();
 	},
 
