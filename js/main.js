@@ -27,6 +27,7 @@ $(function() {
 		$.each(invertedPoints, function(i, point) {
 			point.remove();
 		});
+		invertedPoints = [];
 		$.each(points, function(i, point) {
 			var p = invCircle.invertPoint(point);
 			p.drawOn(paper);
