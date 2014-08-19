@@ -1,14 +1,30 @@
 html,
 body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
 	text-align: center;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 300;
+	font-size: 12px;
 }
 
 div {
-	margin: auto;
+	margin: 0px auto;
+	padding: 0px;
+}
+
+svg {
+	margin: 0px;
+	padding: 0px;
 }
 
 .canvas {
-	border: 1px solid #444444;
+	/*border: 1px solid #444444;*/
+	width: 100%;
+	height: 100%;
+	background: #eee;
 }
 
 .inversion-circle {
@@ -21,4 +37,11 @@ div {
 	stroke: rgb(117, 0, 0);
 	fill: rgba(255, 0, 0, 0.1);
 	cursor: move;
+}
+
+.footer {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: 30px;
 }

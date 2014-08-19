@@ -2,25 +2,16 @@
 
 
 $(function() {
-	// Creates canvas 320 × 200 at 10, 50
 	var canvas = document.querySelector('.canvas');
-	var w = 800,
-		h = 600;
+	var paper = Raphael(canvas, '100%', '100%');
 
-	$(canvas).width(w);
-	$(canvas).height(h);
-	var paper = Raphael(canvas, w, h);
+	var w = $(canvas).width();
+	var h = 500;
 
 
-	var points = [];
-	points.push(new Point(350, 250).drawOn(paper));
-	points.push(new Point(450, 250).drawOn(paper));
-	points.push(new Point(350, 350).drawOn(paper));
-	points.push(new Point(450, 350).drawOn(paper));
-	points.push(new Point(400, 350).drawOn(paper));
-	points.push(new Point(400, 250).drawOn(paper));
-	points.push(new Point(450, 300).drawOn(paper));
-	points.push(new Point(350, 300).drawOn(paper));
+	var circle = new Circle(w/2+100, h/2+100, 100);
+	var points = circle.calculatePoints(50);
+	$.each(points, function(i, p) { p.drawOn(paper); });
 
 	var invertedPoints = [];
 	var invertPoints = function(invCircle, points) {
@@ -36,7 +27,7 @@ $(function() {
 	}
 
 
-	var invCircle = new InversionCircle(400, 300, 100);
+	var invCircle = new Circle(w/2, h/2, 80);
 	invCircle.drawOn(paper);
 	invCircle.on('moved', function() {
 		invertPoints(invCircle, points);

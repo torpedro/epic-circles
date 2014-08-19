@@ -20,7 +20,7 @@ var Point = xbase.Control.extend({
 
 
 
-var InversionCircle = xbase.Control.extend({
+var Circle = xbase.Control.extend({
 	init: function(x, y, r) {
 		this._super();
 		this.x = x;
@@ -89,6 +89,19 @@ var InversionCircle = xbase.Control.extend({
 		dy2 *= sign_y;
 
 		return new Point(this.x + dx2, this.y + dy2);
+	},
+
+	calculatePoints: function(num) {
+		var step = (2*3.14159) / num;
+		var points = [];
+		for (var i = 0; i < num; ++i) {
+			var p = new Point(
+				this.x + Math.sin(step*i) * this.r,
+				this.y + Math.cos(step*i) * this.r
+			);
+			points.push(p);
+		}
+		return points;
 	}
 });
 
