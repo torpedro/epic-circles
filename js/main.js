@@ -57,6 +57,9 @@ var Canvas = xbase.Class.extend({
 		this._changed = true;
 	},
 
+
+
+
 	width: function() {
 		return $(this._canvas).width();
 	}
@@ -76,9 +79,4 @@ $(function() {
 	$.each(points, function(i, p) {
 		canvas.addShape(new Circle(p.x, p.y, 19.6));
 	});
-	// canvas.addShape(new Circle(x + 100, y + 100, 100));
-	// canvas.addShape(new Circle(x - 100, y + 100, 100));
-	// canvas.addShape(new Circle(x + 100, y - 100, 100));
-	// canvas.addShape(new Circle(x - 100, y - 100, 100));
-
 });
