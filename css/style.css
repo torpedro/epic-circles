@@ -40,10 +40,13 @@ svg {
 }
 
 
-.inverted.circle,
-.inverted.origin {
+.inverted.circle {
 	stroke: rgba(0, 0, 0, 0.7);
 	stroke-dasharray: 2, 2;
+}
+.inverted.origin {
+	stroke-width: 0px;
+
 }
 
 .normal.origin {

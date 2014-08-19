@@ -19,6 +19,7 @@ var Canvas = xbase.Class.extend({
 		circle.on('moved', function() {
 			self.update();
 		});
+		this.update();
 	},
 
 
@@ -44,6 +45,7 @@ var Canvas = xbase.Class.extend({
 		shape.on('moved', function() {
 			self.update();
 		});
+		this.update();
 	},
 
 	width: function() {
@@ -54,10 +56,15 @@ var Canvas = xbase.Class.extend({
 
 $(function() {
 	var canvas = new Canvas();
+	var x = canvas.width()/2;
+	var y = 500;
 
-	var invCircle = new Circle(canvas.width()/2, 250, 80);
+	var invCircle = new Circle(x, y, 80);
 	canvas.setInversionCircle(invCircle);
 
-	var circle = new Circle(canvas.width()/2 + 100, 350, 100);
-	canvas.addShape(circle);
+	canvas.addShape(new Circle(x + 100, y + 100, 100));
+	canvas.addShape(new Circle(x - 100, y + 100, 100));
+	canvas.addShape(new Circle(x + 100, y - 100, 100));
+	canvas.addShape(new Circle(x - 100, y - 100, 100));
+
 });
