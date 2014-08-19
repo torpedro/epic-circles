@@ -10,6 +10,14 @@ body {
 	font-size: 12px;
 }
 
+a {
+	color: rgb(12, 113, 180);
+	text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
+}
+
 div {
 	margin: 0px auto;
 	padding: 0px;
