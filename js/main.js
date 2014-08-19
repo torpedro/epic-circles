@@ -1,40 +1,63 @@
 
 
+var Canvas = xbase.Class.extend({
 
-$(function() {
-	var canvas = document.querySelector('.canvas');
-	var paper = Raphael(canvas, '100%', '100%');
+	init: function() {
+		this._canvas = document.querySelector('.canvas');
+		this._paper = Raphael(this._canvas, '100%', '100%');
 
-	var w = $(canvas).width();
-	var h = 500;
+		this._shapes = [];
+		this._invertedShapes = [];
+	},
 
 
-	var circle = new Circle(w/2+100, h/2+100, 100);
-	circle.drawOn(paper);
+	setInversionCircle: function(circle) {
+		var self = this;
+		this._invCircle = circle;
+		circle.drawOn(this._paper);
+		circle.setType('inversion');
+		circle.on('moved', function() {
+			self.update();
+		});
+	},
 
-	var invertedShapes = [];
-	var invert = function(invCircle) {
-		$.each(invertedShapes, function(i, shape) {
+
+	update: function() {
+		var self = this;
+		$.each(this._invertedShapes, function(i, shape) {
 			shape.remove();
 		});
+		this._invertedShapes = [];
 
-		invertedShapes = [];
-		var invertedCircle = invCircle.invertCircle(circle);
-		invertedCircle.drawOn(paper);
-		invertedShapes.push(invertedCircle);
+		$.each(this._shapes, function(i, shape) {
+			var invShape = self._invCircle.invertShape(shape);
+			invShape.drawOn(self._paper);
+			self._invertedShapes.push(invShape);
+		});
+	},
+
+
+	addShape: function(shape) {
+		var self = this;
+		this._shapes.push(shape);
+		shape.drawOn(this._paper);
+		shape.on('moved', function() {
+			self.update();
+		});
+	},
+
+	width: function() {
+		return $(this._canvas).width();
 	}
+});
 
 
-	var invCircle = new Circle(w/2, h/2, 80);
-	invCircle.drawOn(paper);
-	invCircle.setType('inversion');
+$(function() {
+	var canvas = new Canvas();
 
-	invCircle.on('moved', function() {
-		invert(invCircle);
-	});
-	circle.on('moved', function() {
-		invert(invCircle);
-	});
+	var invCircle = new Circle(canvas.width()/2, 250, 80);
+	canvas.setInversionCircle(invCircle);
 
-	invert(invCircle);
+	var circle = new Circle(canvas.width()/2 + 100, 350, 100);
+	canvas.addShape(circle);
 });

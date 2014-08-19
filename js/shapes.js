@@ -87,7 +87,41 @@ var Circle = xbase.Control.extend({
 	},
 
 
-	invertPoint: function(p) {
+	calculatePoints: function(num) {
+		var step = (2*3.14159) / num;
+		var points = [];
+		for (var i = 0; i < num; ++i) {
+			var p = new Point(
+				this.x + Math.sin(step*i) * this.r,
+				this.y + Math.cos(step*i) * this.r
+			);
+			points.push(p);
+		}
+		return points;
+	},
+
+
+	setType: function(type) {
+		this._type = type;
+		this._updateClasses();
+	},
+
+	_updateClasses: function() {
+		if (this._circle) {
+			this._circle.node.setAttribute("class", "circle " + this._type);
+			this._origin.node.setAttribute("class", "origin " + this._type);
+		}
+	},
+
+
+	invertShape: function(shape) {
+		if (shape instanceof Point) return this._invertPoint(shape);
+		if (shape instanceof Circle) return this._invertCircle(shape);
+		return null;
+	},
+
+
+	_invertPoint: function(p) {
 		// OA x OA' = r*r
 		var dx = p.x - this.x,
 			dy = p.y - this.y;
@@ -115,7 +149,7 @@ var Circle = xbase.Control.extend({
 	},
 
 
-	invertCircle: function(circle, paper) {
+	_invertCircle: function(circle, paper) {
 		// calculate closest and farthest point of circle
 		// invert those and calculate center and radius
 		var v = new Vector(this.x - circle.x, this.y - circle.y)
@@ -131,8 +165,8 @@ var Circle = xbase.Control.extend({
 		);
 
 		// Invert points
-		var p1i = this.invertPoint(p1);
-		var p2i = this.invertPoint(p2);
+		var p1i = this._invertPoint(p1);
+		var p2i = this._invertPoint(p2);
 
 		// Calculate origin and radius of new circle
 		var v_diameter = new Vector(
@@ -145,33 +179,6 @@ var Circle = xbase.Control.extend({
 		var newCircle = new Circle(cx, cy, r_new);
 		newCircle.setType('inverted');
 		return newCircle;
-	},
-
-
-	calculatePoints: function(num) {
-		var step = (2*3.14159) / num;
-		var points = [];
-		for (var i = 0; i < num; ++i) {
-			var p = new Point(
-				this.x + Math.sin(step*i) * this.r,
-				this.y + Math.cos(step*i) * this.r
-			);
-			points.push(p);
-		}
-		return points;
-	},
-
-
-	setType: function(type) {
-		this._type = type;
-		this._updateClasses();
-	},
-
-	_updateClasses: function() {
-		if (this._circle) {
-			this._circle.node.setAttribute("class", "circle " + this._type);
-			this._origin.node.setAttribute("class", "origin " + this._type);
-		}
 	}
 });
 
