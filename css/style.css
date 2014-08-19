@@ -28,6 +28,12 @@ svg {
 	padding: 0px;
 }
 
+svg circle {
+	fill: none;
+	stroke-width: 1px;
+	stroke: black;
+}
+
 .canvas {
 	/*border: 1px solid #444444;*/
 	width: 100%;

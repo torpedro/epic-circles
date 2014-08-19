@@ -5,7 +5,7 @@ var Shape = xbase.Control.extend({
 		this._super();
 	},
 
-	drawOn: function(paper) {
+	drawOn: function(svg) {
 		console.error("Method drawOn was not implemented!");
 	},
 
@@ -49,8 +49,9 @@ var Point = Shape.extend({
 	},
 
 
-	drawOn: function(paper) {
-		this._p = paper.circle(this.x, this.y, 2);
+	drawOn: function(svg) {
+		// TODO:
+		// this._p = paper.circle(this.x, this.y, 2);
 		return this;
 	},
 

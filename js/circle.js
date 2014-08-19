@@ -16,21 +16,18 @@ var Circle = Shape.extend({
 	},
 
 
-	drawOn: function(paper) {
+	drawOn: function(svg) {
 		var self = this;
 
-		this._circle = paper.circle(this.x, this.y, this.r);
-		this._origin = paper.circle(this.x, this.y, 5);
+		this._circle = d3adapter.circle(svg, this.x, this.y, this.r);
+		this._origin = d3adapter.circle(svg, this.x, this.y, 5);
 		this._updateClasses();
 
-		// TODO: drag at point where it was clicked
-		// instead of always at the center
 		var move = function(e) {
-			var x = e.clientX - paper.canvas.offsetLeft;
-			var y = e.clientY - paper.canvas.offsetTop;
-			self.updatePosition(x, y);
+			var p = svg.convertScreen(e.clientX, e.clientY);
+			self.updatePosition(p.x, p.y);
 		};
-		this._origin.node.addEventListener("mousedown", function() {
+		this._origin.on("mousedown", function() {
 			window.addEventListener('mousemove', move, true);
 		}, false);
 		window.addEventListener("mouseup", function() {
@@ -43,10 +40,10 @@ var Circle = Shape.extend({
 	updatePosition: function(x, y) {
 		this.x = x;
 		this.y = y;
-		this._circle.node.setAttribute('cx', x);
-		this._circle.node.setAttribute('cy', y);
-		this._origin.node.setAttribute('cx', x);
-		this._origin.node.setAttribute('cy', y);
+		this._circle.attr('cx', x);
+		this._circle.attr('cy', y);
+		this._origin.attr('cx', x);
+		this._origin.attr('cy', y);
 		this.trigger('move');
 	},
 
@@ -73,8 +70,8 @@ var Circle = Shape.extend({
 
 	_updateClasses: function() {
 		if (this._circle) {
-			this._circle.node.setAttribute("class", "circle " + this._type);
-			this._origin.node.setAttribute("class", "origin " + this._type);
+			this._circle.attr("class", "circle " + this._type);
+			this._origin.attr("class", "origin " + this._type);
 		}
 	},
 
@@ -149,6 +146,6 @@ var Circle = Shape.extend({
 
 	copy: function(otherCircle) {
 		this.updatePosition(otherCircle.x, otherCircle.y);
-		this._circle.node.setAttribute('r', otherCircle.r);
+		this._circle.attr('r', otherCircle.r);
 	}
 });
