@@ -1,5 +1,25 @@
 
 
+var Shape = xbase.Control.extend({
+	init: function() {
+		this._super();
+	},
+
+	drawOn: function(paper) {
+		console.error("Method drawOn was not implemented!");
+	},
+
+	remove: function() {
+		console.error("Method remove was not implemented!");
+	},
+
+	copy: function(shape) {
+		console.error("Method copy was not implemented!");
+	}
+});
+
+
+
 var Vector = xbase.Class.extend({
 	init: function(x, y) {
 		this.x = x;
@@ -20,7 +40,7 @@ var Vector = xbase.Class.extend({
 
 
 
-var Point = xbase.Control.extend({
+var Point = Shape.extend({
 	// TODO: add label
 	init: function(x, y) {
 		this._super();
@@ -37,6 +57,13 @@ var Point = xbase.Control.extend({
 
 	remove: function() {
 		this._p.remove();
+	},
+
+
+	copy: function(otherPoint) {
+		this.x = x;
+		this.y = y;
+		// TODO: update position of this._p;
 	}
 });
 

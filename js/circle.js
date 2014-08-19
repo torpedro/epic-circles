@@ -1,6 +1,6 @@
 
 
-var Circle = xbase.Control.extend({
+var Circle = Shape.extend({
 	init: function(x, y, r) {
 		this._super();
 		this.x = x;
