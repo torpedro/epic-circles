@@ -23,6 +23,25 @@ div {
 	padding: 0px;
 }
 
+.footer {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	bottom: 30px;
+}
+
+.header {
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	top: 5px;
+}
+
+
+/**
+ * Style for SVG
+ */
+
 svg {
 	margin: 0px;
 	padding: 0px;
@@ -71,13 +90,3 @@ svg polygon {
 	fill: rgba(0, 0, 255, 0.5);
 	cursor: move;
 }
-
-.footer {
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	bottom: 30px;
-}
-
-
-circle

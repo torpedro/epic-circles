@@ -10,13 +10,16 @@ var Circle = Shape.extend({
 	},
 
 
-	remove: function() {
-		this._circle.remove();
-		this._origin.remove();
+
+
+
+	copy: function(otherCircle) {
+		this.updatePosition(otherCircle.x, otherCircle.y);
+		this._circle.attr('r', otherCircle.r);
 	},
 
 
-	drawOn: function(svg) {
+	_drawOn: function(svg) {
 		var self = this;
 
 		this._circle = d3adapter.circle(svg, this.x, this.y, this.r);
@@ -33,7 +36,14 @@ var Circle = Shape.extend({
 		window.addEventListener("mouseup", function() {
 			window.removeEventListener('mousemove', move, true);
 		}, false);
+
 		return this;
+	},
+
+	
+	_remove: function() {
+		this._circle.remove();
+		this._origin.remove();
 	},
 
 
@@ -154,11 +164,5 @@ var Circle = Shape.extend({
 		});
 		var invertedShape = new Polygon(newPoints);
 		return invertedShape;
-	},
-
-
-	copy: function(otherCircle) {
-		this.updatePosition(otherCircle.x, otherCircle.y);
-		this._circle.attr('r', otherCircle.r);
 	}
 });

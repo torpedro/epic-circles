@@ -1,28 +1,8 @@
 
 
-var Shape = xbase.Control.extend({
-	init: function() {
-		this._super();
-	},
 
-	drawOn: function(svg) {
-		console.error("Method drawOn was not implemented!");
-	},
-
-	remove: function() {
-		console.error("Method remove was not implemented!");
-	},
-
-	copy: function(shape) {
-		console.error("Method copy was not implemented!");
-	}
-});
-
-
-
-var Vector = Shape.extend({
+var Vector = xbase.Class.extend({
 	init: function(x, y) {
-		this._super();
 		this.x = x;
 		this.y = y;
 	},
@@ -36,18 +16,48 @@ var Vector = Shape.extend({
 	normalized: function() {
 		var len = this.length();
 		return new Vector(this.x/len, this.y/len);
+	}
+});
+
+
+var Shape = xbase.Control.extend({
+	init: function() {
+		this._super();
+		this.isVisible = false;
+	},
+
+	showOn: function(svg) {
+		if (!this.isVisible) {
+			this._drawOn(svg);
+			this.isVisible = true;
+		}
 	},
 
 
-	drawOn: function(svg) {
-		this._svg = svg.append("line")
-			.attr("x1", 0)
-			.attr("y1", 0)
-			.attr("x2", this.x)
-			.attr("y2", this.y);
-		return this;
+	hide: function() {
+		if (this.isVisible) {
+			this._remove();
+			this.isVisible = false;
+		}
+	},
+
+
+	copy: function(shape) {
+		console.error("Method copy was not implemented!");
+	},
+
+
+	_remove: function() {
+		console.error("Method remove was not implemented!");
+	},
+
+
+	_drawOn: function(svg) {
+		console.error("Method drawOn was not implemented!");
 	}
 });
+
+
 
 
 
@@ -88,6 +98,12 @@ var Polygon = Shape.extend({
 	},
 
 
+	copy: function(otherPolygon) {
+		this.setPoints(otherPolygon._points);
+		this._svg.attr('points', this._buildPointsAttr());
+	},
+
+
 	setPoints: function(newPoints) {
 		var points = [];
 		$.each(newPoints, function(i, pt) {
@@ -115,17 +131,18 @@ var Polygon = Shape.extend({
 	},
 
 
-	drawOn: function(svg) {
+
+	_drawOn: function(svg) {
 		this._svg = svg.append('polygon')
 			.attr('points', this._buildPointsAttr());
 		return this;
 	},
 
 
-	copy: function(otherPolygon) {
-		this.setPoints(otherPolygon._points);
-		this._svg.attr('points', this._buildPointsAttr());
+	_remove: function() {
+		this._svg.remove();
 	}
+
 });
 
 

@@ -40,7 +40,7 @@ var Canvas = xbase.Class.extend({
 	setInversionCircle: function(circle) {
 		var self = this;
 		this._invCircle = circle;
-		circle.drawOn(this._g);
+		circle.showOn(this._g);
 		circle.setType('inversion');
 		circle.on("move", function() {
 			self._changed = true;
@@ -65,7 +65,7 @@ var Canvas = xbase.Class.extend({
 			} else {
 				self._invertedShapes.push(newInvShape);
 				if (newInvShape) {
-					newInvShape.drawOn(self._g);
+					newInvShape.showOn(self._g);
 				}
 			}
 		});
@@ -75,7 +75,7 @@ var Canvas = xbase.Class.extend({
 	addShape: function(shape) {
 		var self = this;
 		this._shapes.push(shape);
-		shape.drawOn(this._g);
+		shape.showOn(this._g);
 		shape.on("move", function() {
 			self._changed = true;
 		});
@@ -85,6 +85,19 @@ var Canvas = xbase.Class.extend({
 
 	width: function() {
 		return $(this._canvas).width();
+	},
+
+
+	setShowOriginalShapes: function(showOriginalShapes) {
+		if (!showOriginalShapes) {
+			for (var n = 0; n < this._shapes.length; ++n) {
+				this._shapes[n].hide();
+			}
+		} else {
+			for (var n = 0; n < this._shapes.length; ++n) {
+				this._shapes[n].showOn(this._g);
+			}
+		}
 	}
 });
 
@@ -107,4 +120,12 @@ $(function() {
 	canvas.addShape(new Rectangle(-60, 20, 40, 40));
 	canvas.addShape(new Rectangle(20, -60, 40, 40));
 	canvas.addShape(new Rectangle(-60, -60, 40, 40));
+
+
+
+	// Attach to checkboxes
+	$('#cbShowOriginal').click(function() {
+		canvas.setShowOriginalShapes(this.checked);
+	});
+	canvas.setShowOriginalShapes($('#cbShowOriginal').is(':checked'));
 });
