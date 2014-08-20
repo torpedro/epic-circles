@@ -20,8 +20,9 @@ var Shape = xbase.Control.extend({
 
 
 
-var Vector = xbase.Class.extend({
+var Vector = Shape.extend({
 	init: function(x, y) {
+		this._super();
 		this.x = x;
 		this.y = y;
 	},
@@ -35,6 +36,16 @@ var Vector = xbase.Class.extend({
 	normalized: function() {
 		var len = this.length();
 		return new Vector(this.x/len, this.y/len);
+	},
+
+
+	drawOn: function(svg) {
+		this._svg = svg.append("line")
+			.attr("x1", 0)
+			.attr("y1", 0)
+			.attr("x2", this.x)
+			.attr("y2", this.y);
+		return this;
 	}
 });
 
@@ -50,22 +61,81 @@ var Point = Shape.extend({
 
 
 	drawOn: function(svg) {
-		// TODO:
-		// this._p = paper.circle(this.x, this.y, 2);
+		this._svg = d3adapter.circle(svg, this.x, this.y, 2);
 		return this;
 	},
 
 
 	remove: function() {
-		this._p.remove();
+		this._svg.remove();
 	},
 
 
 	copy: function(otherPoint) {
 		this.x = x;
 		this.y = y;
-		// TODO: update position of this._p;
+		// TODO: update position of this._svg;
 	}
 });
 
 
+
+var Polygon = Shape.extend({
+	// TODO: Make movable
+	init: function(points) {
+		this._super();
+		this.setPoints(points);
+	},
+
+
+	setPoints: function(newPoints) {
+		var points = [];
+		$.each(newPoints, function(i, pt) {
+			if (pt instanceof Point) {
+				points.push(pt);
+			} else if (pt instanceof Array) {
+				points.push(new Point(pt[0], pt[1]));
+			} else {
+				points.push(new Point(pt.x, pt.y));
+			}
+		});
+		this._points = points;
+
+		this._pointsString = "";
+	},
+
+
+	_buildPointsAttr: function() {
+		// TODO: Catch infity points
+		var pointsString = "";
+		$.each(this._points, function(i, pt) {
+			pointsString += pt.x + ',' + pt.y + ' ';
+		});
+		return pointsString;
+	},
+
+
+	drawOn: function(svg) {
+		this._svg = svg.append('polygon')
+			.attr('points', this._buildPointsAttr());
+		return this;
+	},
+
+
+	copy: function(otherPolygon) {
+		this.setPoints(otherPolygon._points);
+		this._svg.attr('points', this._buildPointsAttr());
+	}
+});
+
+
+var Rectangle = Polygon.extend({
+	init: function(x, y, w, h) {
+		var p1 = [x, y],
+			p2 = [x + w, y],
+			p3 = [x + w, y + h],
+			p4 = [x, y + h];
+
+		this._super([p1, p2, p3, p4]);
+	}
+});

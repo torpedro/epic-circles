@@ -79,14 +79,15 @@ var Circle = Shape.extend({
 	invertShape: function(shape) {
 		if (shape instanceof Point) return this._invertPoint(shape);
 		if (shape instanceof Circle) return this._invertCircle(shape);
+		if (shape instanceof Polygon) return this._invertPolygon(shape);
 		return null;
 	},
 
 
-	_invertPoint: function(p) {
+	_invertPoint: function(pt) {
 		// OA x OA' = r*r
-		var dx = p.x - this.x,
-			dy = p.y - this.y;
+		var dx = pt.x - this.x,
+			dy = pt.y - this.y;
 
 		var sign_x = (dx > 0) ? 1 : -1;
 		var sign_y = (dy > 0) ? 1 : -1;
@@ -111,7 +112,7 @@ var Circle = Shape.extend({
 	},
 
 
-	_invertCircle: function(circle, paper) {
+	_invertCircle: function(circle) {
 		// calculate closest and farthest point of circle
 		// invert those and calculate center and radius
 		var v = new Vector(this.x - circle.x, this.y - circle.y)
@@ -141,6 +142,18 @@ var Circle = Shape.extend({
 		var newCircle = new Circle(cx, cy, r_new);
 		newCircle.setType('inverted');
 		return newCircle;
+	},
+
+
+	_invertPolygon: function(polygon) {
+		var self = this;
+		var newPoints = [];
+		$.each(polygon._points, function(i, pt) {
+			var invPt = self._invertPoint(pt);
+			newPoints.push(invPt);
+		});
+		var invertedShape = new Polygon(newPoints);
+		return invertedShape;
 	},
 
 

@@ -28,7 +28,9 @@ svg {
 	padding: 0px;
 }
 
-svg circle {
+svg circle,
+svg line,
+svg polygon {
 	fill: none;
 	stroke-width: 1px;
 	stroke: black;

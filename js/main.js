@@ -58,10 +58,15 @@ var Canvas = xbase.Class.extend({
 			var newInvShape = self._invCircle.invertShape(shape);
 
 			if (i < self._invertedShapes.length) {
-				self._invertedShapes[i].copy(newInvShape);
+				var invShape = self._invertedShapes[i];
+				if (invShape) {
+					invShape.copy(newInvShape);
+				}
 			} else {
 				self._invertedShapes.push(newInvShape);
-				newInvShape.drawOn(self._g);
+				if (newInvShape) {
+					newInvShape.drawOn(self._g);
+				}
 			}
 		});
 	},
@@ -89,12 +94,17 @@ $(function() {
 	var x = 0;
 	var y = 0;
 
-	var invCircle = new Circle(x, y, 200);
+	var invCircle = new Circle(x, y, 120);
 	canvas.setInversionCircle(invCircle);
 
 	var metaCircle = new Circle(x, y, 250);
-	var points = metaCircle.calculatePoints(40);
+	var points = metaCircle.calculatePoints(20);
 	$.each(points, function(i, p) {
 		canvas.addShape(new Circle(p.x, p.y, 19.6));
 	});
+
+	canvas.addShape(new Rectangle(20, 20, 40, 40));
+	canvas.addShape(new Rectangle(-60, 20, 40, 40));
+	canvas.addShape(new Rectangle(20, -60, 40, 40));
+	canvas.addShape(new Rectangle(-60, -60, 40, 40));
 });
