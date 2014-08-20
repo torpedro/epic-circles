@@ -65,6 +65,7 @@ var Canvas = xbase.Class.extend({
 			} else {
 				self._invertedShapes.push(newInvShape);
 				if (newInvShape) {
+					newInvShape.setType('inverted');
 					newInvShape.showOn(self._g);
 				}
 			}
@@ -116,10 +117,14 @@ $(function() {
 		canvas.addShape(new Circle(p.x, p.y, 19.6));
 	});
 
-	canvas.addShape(new Rectangle(20, 20, 40, 40));
-	canvas.addShape(new Rectangle(-60, 20, 40, 40));
-	canvas.addShape(new Rectangle(20, -60, 40, 40));
-	canvas.addShape(new Rectangle(-60, -60, 40, 40));
+	canvas.addShape(new Rectangle(-20, 260, 40, 40));
+	canvas.addShape(new Rectangle(-20, 180, 40, 40));
+	canvas.addShape(new Rectangle(-20, 100, 40, 40));
+	canvas.addShape(new Rectangle(-20, 20, 40, 40));
+	canvas.addShape(new Rectangle(-20, -60, 40, 40));
+	canvas.addShape(new Rectangle(-20, -140, 40, 40));
+	canvas.addShape(new Rectangle(-20, -220, 40, 40));
+	canvas.addShape(new Rectangle(-20, -300, 40, 40));
 
 
 

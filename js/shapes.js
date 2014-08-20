@@ -54,6 +54,11 @@ var Shape = xbase.Control.extend({
 
 	_drawOn: function(svg) {
 		console.error("Method drawOn was not implemented!");
+	},
+
+
+	setType: function(svg) {
+		console.warn("Method setType was not implemented!");
 	}
 });
 
@@ -95,6 +100,7 @@ var Polygon = Shape.extend({
 	init: function(points) {
 		this._super();
 		this.setPoints(points);
+		this._type = 'normal';
 	},
 
 
@@ -116,7 +122,6 @@ var Polygon = Shape.extend({
 			}
 		});
 		this._points = points;
-
 		this._pointsString = "";
 	},
 
@@ -131,18 +136,29 @@ var Polygon = Shape.extend({
 	},
 
 
-
 	_drawOn: function(svg) {
 		this._svg = svg.append('polygon')
 			.attr('points', this._buildPointsAttr());
+		this._applyClasses();
 		return this;
 	},
 
 
 	_remove: function() {
 		this._svg.remove();
-	}
+	},
 
+
+	setType: function(type) {
+		this._type = type;
+		this._applyClasses();
+	},
+
+	_applyClasses: function() {
+		if (this._svg) {
+			this._svg.attr("class", this._type);
+		}
+	},
 });
 
 

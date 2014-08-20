@@ -6,7 +6,7 @@ body {
 	padding: 0px;
 	text-align: center;
 	font-family: 'Open Sans', sans-serif;
-	font-size: 300;
+	font-weight: 400;
 	font-size: 12px;
 }
 
@@ -75,18 +75,30 @@ svg polygon {
 }
 
 
-.inverted.circle {
+/* Circle */
+circle.inverted.circle {
 	stroke: rgba(0, 0, 0, 0.7);
-	stroke-dasharray: 2, 2;
 }
-.inverted.origin {
+circle.inverted.origin {
+	/* Hide the origin of inverted circles */
 	stroke-width: 0px;
-
 }
 
-.normal.origin {
+circle.normal.circle {
+	opacity: 0.3;
+}
+circle.normal.origin {
+	stroke-width: 0px;
 	stroke: rgba(0, 0, 0, 0.8);
-	stroke-dasharray: 2, 2;
-	fill: rgba(0, 0, 255, 0.5);
+	fill: rgba(0, 0, 255, 0.2);
 	cursor: move;
+}
+
+/* Polygon */
+polygon.normal {
+	opacity: 0.3;
+}
+
+polygon.inverted {
+
 }

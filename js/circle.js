@@ -24,7 +24,7 @@ var Circle = Shape.extend({
 
 		this._circle = d3adapter.circle(svg, this.x, this.y, this.r);
 		this._origin = d3adapter.circle(svg, this.x, this.y, 5);
-		this._updateClasses();
+		this._applyClasses();
 
 		var move = function(e) {
 			var p = svg.convertScreen(e.clientX, e.clientY);
@@ -74,11 +74,11 @@ var Circle = Shape.extend({
 
 	setType: function(type) {
 		this._type = type;
-		this._updateClasses();
+		this._applyClasses();
 	},
 
 
-	_updateClasses: function() {
+	_applyClasses: function() {
 		if (this._circle) {
 			this._circle.attr("class", "circle " + this._type);
 			this._origin.attr("class", "origin " + this._type);
@@ -150,7 +150,6 @@ var Circle = Shape.extend({
 		var cx = p1i.x - v_diameter.x/2;
 		var cy = p1i.y - v_diameter.y/2;
 		var newCircle = new Circle(cx, cy, r_new);
-		newCircle.setType('inverted');
 		return newCircle;
 	},
 
