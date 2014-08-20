@@ -84,13 +84,13 @@ var Point = Shape.extend({
 	},
 
 
-	drawOn: function(svg) {
+	_drawOn: function(svg) {
 		this._svg = d3adapter.circle(svg, this.x, this.y, 2);
 		return this;
 	},
 
 
-	remove: function() {
+	_remove: function() {
 		this._svg.remove();
 	},
 
@@ -102,6 +102,31 @@ var Point = Shape.extend({
 	}
 });
 
+
+var Line = Shape.extend({
+	init: function(x, y, dx, dy) {
+		this._super();
+		this._origin = new Point(x, y);
+		this._vector = new Vector(dx, dy).normalized();
+	},
+
+	copy: function(otherLine) {
+		console.warn("Implement copy");
+	},
+
+	_drawOn: function(svg) {
+		this._svg = svg.append("line")
+			.attr("x1", this._origin.x - this._vector.x*1000)
+			.attr("y1", this._origin.y - this._vector.y*1000)
+			.attr("x2", this._origin.x + this._vector.x*1000)
+			.attr("y2", this._origin.y + this._vector.y*1000);
+		return this;
+	},
+
+	_remove: function() {
+		this._svg.remove();
+	}
+});
 
 
 var Polygon = Shape.extend({
