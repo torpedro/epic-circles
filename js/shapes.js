@@ -24,6 +24,7 @@ var Shape = xbase.Control.extend({
 	init: function() {
 		this._super();
 		this.isVisible = false;
+		this.doInvert = true
 	},
 
 	showOn: function(svg) {
@@ -31,6 +32,7 @@ var Shape = xbase.Control.extend({
 			this._drawOn(svg);
 			this.isVisible = true;
 		}
+		return this;
 	},
 
 
@@ -39,6 +41,13 @@ var Shape = xbase.Control.extend({
 			this._remove();
 			this.isVisible = false;
 		}
+		return this;
+	},
+
+
+	dontInvert: function() {
+		this.doInvert = false;
+		return this;
 	},
 
 

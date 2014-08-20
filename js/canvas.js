@@ -1,5 +1,4 @@
 
-
 var Canvas = xbase.Class.extend({
 
 	init: function() {
@@ -55,7 +54,9 @@ var Canvas = xbase.Class.extend({
 		
 		var self = this;
 		$.each(this._shapes, function(i, shape) {
-			var newInvShape = self._invCircle.invertShape(shape);
+			var newInvShape = null;
+			// Check if we are supposed to invert the shape
+			if (shape.doInvert) newInvShape = self._invCircle.invertShape(shape);
 
 			if (i < self._invertedShapes.length) {
 				var invShape = self._invertedShapes[i];
@@ -100,37 +101,4 @@ var Canvas = xbase.Class.extend({
 			}
 		}
 	}
-});
-
-
-$(function() {
-	canvas = new Canvas();
-	var x = 0;
-	var y = 0;
-
-	var invCircle = new Circle(x, y, 120);
-	canvas.setInversionCircle(invCircle);
-
-	var metaCircle = new Circle(x, y, 250);
-	var points = metaCircle.calculatePoints(20);
-	$.each(points, function(i, p) {
-		canvas.addShape(new Circle(p.x, p.y, 19.6));
-	});
-
-	canvas.addShape(new Rectangle(-20, 260, 40, 40));
-	canvas.addShape(new Rectangle(-20, 180, 40, 40));
-	canvas.addShape(new Rectangle(-20, 100, 40, 40));
-	canvas.addShape(new Rectangle(-20, 20, 40, 40));
-	canvas.addShape(new Rectangle(-20, -60, 40, 40));
-	canvas.addShape(new Rectangle(-20, -140, 40, 40));
-	canvas.addShape(new Rectangle(-20, -220, 40, 40));
-	canvas.addShape(new Rectangle(-20, -300, 40, 40));
-
-
-
-	// Attach to checkboxes
-	$('#cbShowOriginal').click(function() {
-		canvas.setShowOriginalShapes(this.checked);
-	});
-	canvas.setShowOriginalShapes($('#cbShowOriginal').is(':checked'));
 });
