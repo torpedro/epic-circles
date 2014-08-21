@@ -78,6 +78,7 @@ svg > .background {
 
 .grid line {
 	stroke: #aaa;
+	stroke-dasharray: 2, 2;
 }
 
 
