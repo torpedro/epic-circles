@@ -4,8 +4,8 @@ var Canvas = xbase.Class.extend({
 	init: function() {
 		var self = this;
 		this.scale = 1.0;
-		this.transformX = "50vw";
-		this.transformY = "45vh";
+		this.transformX = $(window).width() / 2;
+		this.transformY = $(window).height() / 2 - 50;
 		this._canvas = document.querySelector('.canvas');
 
 		this._svg = d3.select(this._canvas).append('svg')
@@ -13,8 +13,6 @@ var Canvas = xbase.Class.extend({
 			.attr('height', '100%');
 
 		this._g = this._svg.append('g');
-
-		this._origin = d3adapter.circle(this._g, 0, 0, 0).style('visibility', 'hidden');
 		this._g.convertScreen = function() { 
 			return self.convertScreen.apply(self, arguments);
 		}
@@ -42,14 +40,18 @@ var Canvas = xbase.Class.extend({
 
 	increaseScaleByPerc: function(deltaPerc) {
 		this.scale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
-		console.log(this.scale);
+		// console.log(this.scale);
 		this._applyTransform();
 	},
 
 
 	_applyTransform: function() {
-		var transform = 'translate(' + this.transformX + ', ' + this.transformY + ') scale(' + this.scale + ')';
+		var translate = 'translate(' + this.transformX + 'px, ' + this.transformY + 'px)';
+		var scale = 'scale(' + this.scale + ')';
+		var transform = translate + ' ' + scale;
+
 		this._g.style('transform', transform);
+
 		this._g.selectAll('circle').style('stroke-width', 1/this.scale + 'px');
 		this._g.selectAll('line').style('stroke-width', 1/this.scale + 'px');
 		this._g.selectAll('polygon').style('stroke-width', 1/this.scale + 'px');
@@ -57,8 +59,8 @@ var Canvas = xbase.Class.extend({
 
 
 	convertScreen: function(x, y) {
-		x -= this._origin[0][0].getBoundingClientRect().left;
-		y -= this._origin[0][0].getBoundingClientRect().top;
+		x -= this.transformX;
+		y -= this.transformY;
 		x /= this.scale;
 		y /= this.scale;
 		return {
