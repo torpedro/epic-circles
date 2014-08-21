@@ -51,6 +51,11 @@ var Shape = xbase.Control.extend({
 
 	setType: function(svg) {
 		console.warn("Method setType was not implemented!");
+	},
+
+	remove: function() {
+		this.hide();
+		console.warn("Method remove was not implemented! Just hiding!");
 	}
 });
 

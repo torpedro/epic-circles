@@ -76,6 +76,10 @@ svg > .background {
 	opacity: 0.0;
 }
 
+.grid line {
+	stroke: #aaa;
+}
+
 
 .inversion.circle {
 	stroke: rgb(117, 0, 0);
@@ -100,7 +104,7 @@ circle.inverted.origin {
 }
 
 circle.normal.circle {
-	opacity: 0.3;
+	stroke: #888;
 }
 circle.normal.origin {
 	visibility: hidden;
@@ -111,7 +115,7 @@ circle.normal.origin {
 
 /* Polygon */
 polygon.normal {
-	opacity: 0.3;
+	stroke: #888;
 }
 
 polygon.inverted {
@@ -120,7 +124,7 @@ polygon.inverted {
 
 /* Line */
 line.normal {
-	opacity: 0.3;
+	stroke: #888;
 }
 
 line.inverted {

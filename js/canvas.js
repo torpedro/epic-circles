@@ -60,19 +60,20 @@ var Canvas = xbase.Class.extend({
 		}, 1000.0/fps);
 
 		this._applyTransform();
+		this._drawGrid();
 	},
 
 
 	increaseScaleByPerc: function(deltaPerc) {
-		this.scale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
-		// console.log(this.scale);
+		var newScale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
+		this.scale = newScale;
 		this._applyTransform();
 	},
 
 
 	increaseTransform: function(deltaX, deltaY) {
-		this.transformX += deltaX;// * (this.scale);
-		this.transformY += deltaY;// * (this.scale);
+		this.transformX += deltaX;
+		this.transformY += deltaY;
 		this._applyTransform();
 	},
 
@@ -87,6 +88,21 @@ var Canvas = xbase.Class.extend({
 		this._g.selectAll('circle').style('stroke-width', 1/this.scale + 'px');
 		this._g.selectAll('line').style('stroke-width', 1/this.scale + 'px');
 		this._g.selectAll('polygon').style('stroke-width', 1/this.scale + 'px');
+	},
+
+
+	_drawGrid: function() {
+		var grid = this._g.append("g").classed("grid", true);
+		grid.append("line")
+			.attr("x1", "-25000")
+			.attr("y1", "0")
+			.attr("x2", "25000")
+			.attr("y2", "0");
+		grid.append("line")
+			.attr("x1", "0")
+			.attr("y1", "-25000")
+			.attr("x2", "0")
+			.attr("y2", "25000");
 	},
 
 
@@ -115,7 +131,7 @@ var Canvas = xbase.Class.extend({
 
 	_addInvertedShape: function(shape, pos) {
 		if (isFinite(pos)) {
-			this._invertedShapes[pos]._remove();
+			this._invertedShapes[pos].remove();
 			this._invertedShapes[pos] = shape
 		} else {
 			this._invertedShapes.push(shape);
