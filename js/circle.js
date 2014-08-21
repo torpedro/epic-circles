@@ -20,8 +20,8 @@ var Circle = Shape.extend({
 
 	_showOn: function(svg) {
 		if (this._circle) {
-			this._circle.style('visibility', 'visible');
-			this._origin.style('visibility', 'visible');
+			this._circle.style('visibility', '');
+			this._origin.style('visibility', '');
 			return this;
 		}
 

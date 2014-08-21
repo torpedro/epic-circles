@@ -103,7 +103,7 @@ var Line = Shape.extend({
 
 	_showOn: function(svg) {
 		if (this._svg) {
-			this._svg.style('visibility', 'visible');
+			this._svg.style('visibility', '');
 			return this;
 		}
 
@@ -177,10 +177,10 @@ var Polygon = Shape.extend({
 
 	_showOn: function(svg) {
 		if (this._svg) {
-			this._svg.style('visibility', 'visible');
+			this._svg.style('visibility', '');
 			return this;
 		}
-		
+
 		this._svg = svg.append('polygon')
 			.attr('points', this._buildPointsAttr());
 		this._applyClasses();

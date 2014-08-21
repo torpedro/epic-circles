@@ -42,10 +42,24 @@ div {
 /**
  * Style for SVG
  */
+.canvas {
+	/*border: 1px solid #444444;*/
+	width: 100%;
+	height: 100%;
+	background: #eee;
+}
 
-svg {
+.canvas > svg {
 	margin: 0px;
 	padding: 0px;
+	cursor: -moz-grab;
+	cursor: -webkit-grab;
+	cursor: grab;
+}
+.canvas > svg.grabbed {
+	cursor: -moz-grabbing;
+	cursor: -webkit-grabbing;
+	cursor: grabbing;
 }
 
 svg circle,
@@ -56,12 +70,12 @@ svg polygon {
 	stroke: black;
 }
 
-.canvas {
-	/*border: 1px solid #444444;*/
-	width: 100%;
-	height: 100%;
-	background: #eee;
+svg > .background {
+	/*visibility: hidden;*/
+	/*fill: ;*/
+	opacity: 0.0;
 }
+
 
 .inversion.circle {
 	stroke: rgb(117, 0, 0);

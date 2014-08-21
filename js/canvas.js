@@ -6,11 +6,17 @@ var Canvas = xbase.Class.extend({
 		this.scale = 1.0;
 		this.transformX = $(window).width() / 2;
 		this.transformY = $(window).height() / 2 - 50;
-		this._canvas = document.querySelector('.canvas');
 
+		// Initialize canvas
+		this._canvas = document.querySelector('.canvas');
 		this._svg = d3.select(this._canvas).append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%');
+
+		this._background = this._svg.append('rect')
+			.attr('width', '100%')
+			.attr('height', '100%')
+			.classed('background', true);
 
 		this._g = this._svg.append('g');
 		this._g.convertScreen = function() { 
@@ -18,6 +24,7 @@ var Canvas = xbase.Class.extend({
 		}
 
 
+		// Add Event listeners for scaling and translating
 		this._canvas.addEventListener("mousewheel", function(evt) {
 			if (evt.deltaY > 0) {
 				self.increaseScaleByPerc(-0.1);
@@ -25,6 +32,24 @@ var Canvas = xbase.Class.extend({
 				self.increaseScaleByPerc(0.1);
 			}
 		});
+
+		var move = function(evt) {
+			self.increaseTransform(evt.clientX - self._lastGrab.x, evt.clientY - self._lastGrab.y);
+			self._lastGrab = {x: evt.clientX, y: evt.clientY};
+		};
+		this._background[0][0].addEventListener("mousedown", function(evt) {
+			console.log(arguments);
+			self._lastGrab = {x: evt.clientX, y: evt.clientY};
+			self._svg.classed("grabbed", true);
+			window.addEventListener('mousemove', move, true);
+		}, false);
+		window.addEventListener("mouseup", function() {
+			self._svg.classed("grabbed", false);
+			window.removeEventListener('mousemove', move, true);
+		}, false);
+
+
+		// Initialize update loop
 
 		this._shapes = [];
 		this._invertedShapes = [];
@@ -41,6 +66,13 @@ var Canvas = xbase.Class.extend({
 	increaseScaleByPerc: function(deltaPerc) {
 		this.scale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
 		// console.log(this.scale);
+		this._applyTransform();
+	},
+
+
+	increaseTransform: function(deltaX, deltaY) {
+		this.transformX += deltaX;// * (this.scale);
+		this.transformY += deltaY;// * (this.scale);
 		this._applyTransform();
 	},
 
