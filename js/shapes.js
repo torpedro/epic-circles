@@ -106,6 +106,10 @@ var Line = Shape.extend({
 		console.warn("TODO: Implement copy");
 	},
 
+	remove: function() {
+		this._svg.remove();
+	},
+
 	_showOn: function(svg) {
 		if (this._svg) {
 			this._svg.style('visibility', '');

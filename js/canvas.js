@@ -38,7 +38,6 @@ var Canvas = xbase.Class.extend({
 			self._lastGrab = {x: evt.clientX, y: evt.clientY};
 		};
 		this._background[0][0].addEventListener("mousedown", function(evt) {
-			console.log(arguments);
 			self._lastGrab = {x: evt.clientX, y: evt.clientY};
 			self._svg.classed("grabbed", true);
 			window.addEventListener('mousemove', move, true);
@@ -131,7 +130,9 @@ var Canvas = xbase.Class.extend({
 
 	_addInvertedShape: function(shape, pos) {
 		if (isFinite(pos)) {
-			this._invertedShapes[pos].remove();
+			if (this._invertedShapes[pos]) {
+				this._invertedShapes[pos].remove();
+			}
 			this._invertedShapes[pos] = shape
 		} else {
 			this._invertedShapes.push(shape);
@@ -145,27 +146,50 @@ var Canvas = xbase.Class.extend({
 	update: function() {
 		if (!this._changed) return;
 		this._changed = false;
-		
-		var self = this;
-		$.each(this._shapes, function(i, shape) {
-			var newInvShape = null;
-			// Check if we are supposed to invert the shape
-			if (shape.doInvert) newInvShape = self._invCircle.invertShape(shape);
+		var numShapes = this._shapes.length;
 
-			if (i < self._invertedShapes.length) {
-				var invShape = self._invertedShapes[i];
-				if (invShape) {
-					var res = invShape.copy(newInvShape);
-					if (res === false) {
-						// copy didn't work, because the type of shape has changed
-						console.log("Shape changed", newInvShape)
-						self._addInvertedShape(newInvShape, i);
-					}
+		for (var i = this._invertedShapes.length; i < numShapes; ++i) {
+			// var shape = this._shapes[i];
+			// var invShape = this._invCircle.invertShape(shape);
+			// this._addInvertedShape(invShape);
+			this._addInvertedShape(null);
+		}
+
+		for (var i = 0; i < numShapes; ++i) {
+			var invShape = this._invertedShapes[i];
+			var newInvShape = this._invCircle.invertShape(this._shapes[i]);
+
+			if (invShape) {
+				var res = invShape.copy(newInvShape);
+				if (res === false) {
+					// copy didn't work, because the type of shape has changed
+					this._addInvertedShape(newInvShape, i);
 				}
-			} else {
-				self._addInvertedShape(newInvShape);
+			} else if (newInvShape) {
+				this._addInvertedShape(newInvShape, i);
 			}
-		});
+		}
+		this._applyTransform();
+		// var self = this;
+		// $.each(this._shapes, function(i, shape) {
+		// 	var newInvShape = null;
+		// 	// Check if we are supposed to invert the shape
+		// 	if (shape.doInvert) newInvShape = self._invCircle.invertShape(shape);
+
+		// 	if (i < self._invertedShapes.length) {
+		// 		var invShape = self._invertedShapes[i];
+		// 		if (invShape) {
+		// 			var res = invShape.copy(newInvShape);
+		// 			if (res === false) {
+		// 				// copy didn't work, because the type of shape has changed
+		// 				console.log("Shape changed", newInvShape)
+		// 				self._addInvertedShape(newInvShape, i);
+		// 			}
+		// 		}
+		// 	} else {
+		// 		self._addInvertedShape(newInvShape);
+		// 	}
+		// });
 	},
 
 

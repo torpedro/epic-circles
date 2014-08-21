@@ -51,6 +51,12 @@ var Circle = Shape.extend({
 	},
 
 
+	remove: function() {
+		this._circle.remove();
+		this._origin.remove();
+	},
+
+
 	updatePosition: function(x, y) {
 		this.x = x;
 		this.y = y;
