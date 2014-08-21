@@ -50,6 +50,9 @@ var Canvas = xbase.Class.extend({
 	_applyTransform: function() {
 		var transform = 'translate(' + this.transformX + ', ' + this.transformY + ') scale(' + this.scale + ')';
 		this._g.style('transform', transform);
+		this._g.selectAll('circle').style('stroke-width', 1/this.scale + 'px');
+		this._g.selectAll('line').style('stroke-width', 1/this.scale + 'px');
+		this._g.selectAll('polygon').style('stroke-width', 1/this.scale + 'px');
 	},
 
 

@@ -82,14 +82,14 @@ circle.inverted.circle {
 }
 circle.inverted.origin {
 	/* Hide the origin of inverted circles */
-	stroke-width: 0px;
+	visibility: hidden;
 }
 
 circle.normal.circle {
 	opacity: 0.3;
 }
 circle.normal.origin {
-	stroke-width: 0px;
+	visibility: hidden;
 	stroke: rgba(0, 0, 0, 0.8);
 	fill: rgba(0, 0, 255, 0.2);
 	cursor: move;
