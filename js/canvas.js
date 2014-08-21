@@ -113,5 +113,20 @@ var Canvas = xbase.Class.extend({
 				this._shapes[n].showOn(this._g);
 			}
 		}
+	},
+
+	setShowInvertedShapes: function(showInvertedShapes) {
+		if (!showInvertedShapes) {
+			for (var n = 0; n < this._invertedShapes.length; ++n) {
+				this._invertedShapes[n].hide();
+			}
+		} else {
+			for (var n = 0; n < this._invertedShapes.length; ++n) {
+				this._invertedShapes[n].showOn(this._g);
+			}
+			this.changed = true;
+		}
 	}
+
+
 });

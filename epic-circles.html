@@ -7,8 +7,10 @@
 	<script type="text/javascript" src="js/lib/raphael-min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/lib/xbase-latest-full.js"></script>
+	<script type="text/javascript" src="js/lib/sylvester.js"></script>
 
 	<script type="text/javascript" src="js/d3adapter.js"></script>
+	<script type="text/javascript" src="js/geom.js"></script>
 	<script type="text/javascript" src="js/shapes.js"></script>
 	<script type="text/javascript" src="js/circle.js"></script>
 	<script type="text/javascript" src="js/canvas.js"></script>
@@ -19,7 +21,10 @@
 <body>
 	<div class="header">
 		<label>
-			<input id="cbShowOriginal" type="checkbox" checked /> Show original shapes			
+			<input id="cbShowOriginal" type="checkbox" checked /> Show original shapes		
+		</label>
+		<label>
+			<input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes	
 		</label>
 	</div>
 	<div class="canvas"></div>
@@ -38,12 +43,16 @@ $(function() {
 
 
 	// Biggest circle
-	canvas.addShape(new Circle(x, y, r).dontInvert());
-	canvas.addShape(new Circle(x, y-r/2, r/2));
-	canvas.addShape(new Circle(x, y+r/2, r/2).dontInvert());
-		// canvas.addShape(new Circle(100, 100, 13));
+	// canvas.addShape(new Circle(x, y, r));
+	// canvas.addShape(new Circle(x, y-r/2, r/2));
+	// canvas.addShape(new Circle(x, y+r/2, r/2));
 
-	for (var i = 1; i <= 20; ++i) {
+	canvas.addShape(new Line(x, y, 1, 0));
+	canvas.addShape(new Line(x, y+r/2, 1, 0));
+
+	// Circles within the lines
+	// canvas.addShape(new Circle(x, y+r/4, r/4));
+	for (var i = -20; i <= 20; ++i) {
 		// Bigger circle
 		canvas.addShape(new Circle(x-(i*r/2), y+r/4, r/4));
 		// Smaller circle
@@ -59,6 +68,11 @@ $(function() {
 		canvas.setShowOriginalShapes(this.checked);
 	});
 	canvas.setShowOriginalShapes($('#cbShowOriginal').is(':checked'));
+	
+	$('#cbShowInverted').click(function() {
+		canvas.setShowInvertedShapes(this.checked);
+	});
+	canvas.setShowInvertedShapes($('#cbShowInverted').is(':checked'));
 });
 </script>
 </body>

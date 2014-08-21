@@ -102,3 +102,12 @@ polygon.normal {
 polygon.inverted {
 
 }
+
+/* Line */
+line.normal {
+	opacity: 0.3;
+}
+
+line.inverted {
+	
+}
