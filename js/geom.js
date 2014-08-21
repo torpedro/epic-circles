@@ -87,9 +87,24 @@ geom.invertCircle = function(circle, invCircle) {
 		circle.y - vn.y * circle.r
 	);
 
+	// Check if the closest point is the origin
+	// If that's the case then the inversion is a line
+	if (p1.x == invCircle.x && p1.y == invCircle.y) {
+		// p2 inverted is a point on the line
+		var origin = geom.invertPoint(p2, invCircle)
+
+		// we also need to calculate the direction
+		var diff = $V([p2.x - p1.x, p2.y - p1.y]);
+		var direction = diff.rotate(Math.PI/2, $V([0, 0]));;
+
+		return new Line(origin.x, origin.y, direction.e(1), direction.e(2));
+	}
+
+
 	// Invert points
 	var p1i = geom.invertPoint(p1, invCircle);
 	var p2i = geom.invertPoint(p2, invCircle);
+
 
 	// Calculate origin and radius of new circle
 	var v_diameter = new geom.Vector(
@@ -99,6 +114,8 @@ geom.invertCircle = function(circle, invCircle) {
 	var r_new = v_diameter.length() / 2;
 	var cx = p1i.x - v_diameter.x/2;
 	var cy = p1i.y - v_diameter.y/2;
+
+
 	var newCircle = new Circle(cx, cy, r_new);
 	return newCircle;
 }

@@ -14,8 +14,10 @@ var Circle = Shape.extend({
 
 
 	copy: function(otherCircle) {
+		if (!(otherCircle instanceof Circle)) return false;
 		this.updatePosition(otherCircle.x, otherCircle.y);
 		this._circle.attr('r', otherCircle.r);
+		return true;
 	},
 
 

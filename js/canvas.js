@@ -47,6 +47,18 @@ var Canvas = xbase.Class.extend({
 		this._changed = true;
 	},
 
+	_addInvertedShape: function(shape, pos) {
+		if (isFinite(pos)) {
+			this._invertedShapes[pos]._remove();
+			this._invertedShapes[pos] = shape
+		} else {
+			this._invertedShapes.push(shape);
+		}
+		if (shape) {
+			shape.setType('inverted');
+			shape.showOn(this._g);
+		}
+	},
 
 	update: function() {
 		if (!this._changed) return;
@@ -61,14 +73,15 @@ var Canvas = xbase.Class.extend({
 			if (i < self._invertedShapes.length) {
 				var invShape = self._invertedShapes[i];
 				if (invShape) {
-					invShape.copy(newInvShape);
+					var res = invShape.copy(newInvShape);
+					if (res === false) {
+						// copy didn't work, because the type of shape has changed
+						console.log("Shape changed", newInvShape)
+						self._addInvertedShape(newInvShape, i);
+					}
 				}
 			} else {
-				self._invertedShapes.push(newInvShape);
-				if (newInvShape) {
-					newInvShape.setType('inverted');
-					newInvShape.showOn(self._g);
-				}
+				self._addInvertedShape(newInvShape);
 			}
 		});
 	},
