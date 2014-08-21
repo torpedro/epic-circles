@@ -167,6 +167,11 @@ geom.invertLine = function(line, invCircle) {
 	// See: http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line#Vector_formulation
 	var diff = a.subtract(p).subtract(n.multiply(a.subtract(p).dot(n)));
 
+	if (diff.distanceFrom($V([0, 0])) == 0) {
+		// The line is going through the circles origin
+		// No inversion exists here
+		return null;
+	}
 	// Calculate the closest point
 	// And invert it
 	var p2 = p.add(diff);
