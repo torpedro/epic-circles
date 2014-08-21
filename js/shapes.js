@@ -1,23 +1,6 @@
 
 
 
-var Vector = xbase.Class.extend({
-	init: function(x, y) {
-		this.x = x;
-		this.y = y;
-	},
-
-
-	length: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
-	},
-
-
-	normalized: function() {
-		var len = this.length();
-		return new Vector(this.x/len, this.y/len);
-	}
-});
 
 
 var Shape = xbase.Control.extend({
@@ -104,10 +87,12 @@ var Point = Shape.extend({
 
 
 var Line = Shape.extend({
+	// Line => x = origin + t * vector
+	
 	init: function(x, y, dx, dy) {
 		this._super();
 		this._origin = new Point(x, y);
-		this._vector = new Vector(dx, dy).normalized();
+		this._vector = new geom.Vector(dx, dy).normalized();
 	},
 
 	copy: function(otherLine) {

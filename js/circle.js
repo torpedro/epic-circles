@@ -90,6 +90,7 @@ var Circle = Shape.extend({
 		if (shape instanceof Point) return geom.invertPoint(shape, this);
 		if (shape instanceof Circle) return geom.invertCircle(shape, this);
 		if (shape instanceof Polygon) return geom.invertPolygon(shape, this);
+		if (shape instanceof Line) return geom.invertLine(shape, this);
 		return null;
 	}
 });

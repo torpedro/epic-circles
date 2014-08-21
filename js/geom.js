@@ -1,6 +1,36 @@
 
 if (typeof geom === "undefined") geom = {};
 
+
+geom.Vector = xbase.Class.extend({
+	init: function(x, y) {
+		this.x = x;
+		this.y = y;
+	},
+
+
+	length: function() {
+		return Math.sqrt(this.x * this.x + this.y * this.y);
+	},
+
+
+	normalized: function() {
+		var len = this.length();
+		return new geom.Vector(this.x/len, this.y/len);
+	},
+
+
+	sub: function(v) {
+		return new Vector(this.x - x, this.y - y);
+	},
+
+	add: function(v) {
+		return new Vector(this.x + x, this.y + y);
+	}
+});
+
+
+
 /**
  * Inverts a  point at the given inversion circle
  * @param Point point       point to be inverted
@@ -45,7 +75,7 @@ geom.invertPoint = function(point, invCircle) {
 geom.invertCircle = function(circle, invCircle) {
 	// calculate closest and farthest point of circle
 	// invert those and calculate center and radius
-	var v = new Vector(invCircle.x - circle.x, invCircle.y - circle.y)
+	var v = new geom.Vector(invCircle.x - circle.x, invCircle.y - circle.y)
 	var vn = v.normalized();
 
 	var p1 = new Point(
@@ -62,7 +92,7 @@ geom.invertCircle = function(circle, invCircle) {
 	var p2i = geom.invertPoint(p2, invCircle);
 
 	// Calculate origin and radius of new circle
-	var v_diameter = new Vector(
+	var v_diameter = new geom.Vector(
 		p1i.x - p2i.x,
 		p1i.y - p2i.y
 	);
@@ -89,4 +119,43 @@ geom.invertPolygon = function(polygon, invCircle) {
 	});
 	var invertedShape = new Polygon(newPoints);
 	return invertedShape;
+}
+
+
+
+
+/**
+ * Inverts a line at the given inversion circle
+ * @param Line line         line to be inverted
+ * @param Circle invCircle  inversion circle
+ * @return Circle
+ */
+geom.invertLine = function(line, invCircle) {
+	// Calculate the closest point of the line to the inversion circle
+	// This point and the origin of the invCircle are across from each other
+	// By knowing this we can calculate the origin and radius.
+
+	// Calculate the closest point of the line:
+	// Line => x = a + tn
+	// n is unit vector of line
+	// a is a point on the line
+	var a = $V([line._origin.x, line._origin.y]);
+	var n = $V([line._vector.x, line._vector.y]);
+
+	// p is the point of which we want to know the distance
+	var p = $V([invCircle.x, invCircle.y]);
+
+
+	// Calculate the difference vector from the point to the line
+	// See: http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line#Vector_formulation
+	var diff = a.subtract(p).subtract(n.multiply(a.subtract(p).dot(n)));
+
+	// Calculate the closest point
+	// var p2 = p.add(diff);
+
+	// Now we construct the circle out of diff
+	var c = p.add(diff.multiply(0.5));
+	var r = diff.multiply(0.5).distanceFrom($V([0, 0]));
+
+	return new Circle(c.e(1), c.e(2), r);
 }
