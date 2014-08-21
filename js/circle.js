@@ -10,9 +10,6 @@ var Circle = Shape.extend({
 	},
 
 
-
-
-
 	copy: function(otherCircle) {
 		if (!(otherCircle instanceof Circle)) return false;
 		this.updatePosition(otherCircle.x, otherCircle.y);
@@ -21,9 +18,14 @@ var Circle = Shape.extend({
 	},
 
 
-	_drawOn: function(svg) {
-		var self = this;
+	_showOn: function(svg) {
+		if (this._circle) {
+			this._circle.style('visibility', 'visible');
+			this._origin.style('visibility', 'visible');
+			return this;
+		}
 
+		var self = this;
 		this._circle = d3adapter.circle(svg, this.x, this.y, this.r);
 		this._origin = d3adapter.circle(svg, this.x, this.y, 5);
 		this._applyClasses();
@@ -43,9 +45,9 @@ var Circle = Shape.extend({
 	},
 
 	
-	_remove: function() {
-		this._circle.remove();
-		this._origin.remove();
+	_hide: function() {
+		this._circle.style('visibility', 'hidden');
+		this._origin.style('visibility', 'hidden');
 	},
 
 

@@ -12,7 +12,7 @@ var Shape = xbase.Control.extend({
 
 	showOn: function(svg) {
 		if (!this.isVisible) {
-			this._drawOn(svg);
+			this._showOn(svg);
 			this.isVisible = true;
 		}
 		return this;
@@ -21,7 +21,7 @@ var Shape = xbase.Control.extend({
 
 	hide: function() {
 		if (this.isVisible) {
-			this._remove();
+			this._hide();
 			this.isVisible = false;
 		}
 		return this;
@@ -39,12 +39,12 @@ var Shape = xbase.Control.extend({
 	},
 
 
-	_remove: function() {
+	_hide: function() {
 		console.error("Method remove was not implemented!");
 	},
 
 
-	_drawOn: function(svg) {
+	_showOn: function(svg) {
 		console.error("Method drawOn was not implemented!");
 	},
 
@@ -67,13 +67,13 @@ var Point = Shape.extend({
 	},
 
 
-	_drawOn: function(svg) {
+	_showOn: function(svg) {
 		this._svg = d3adapter.circle(svg, this.x, this.y, 2);
 		return this;
 	},
 
 
-	_remove: function() {
+	_hide: function() {
 		this._svg.remove();
 	},
 
@@ -101,7 +101,12 @@ var Line = Shape.extend({
 		console.warn("TODO: Implement copy");
 	},
 
-	_drawOn: function(svg) {
+	_showOn: function(svg) {
+		if (this._svg) {
+			this._svg.style('visibility', 'visible');
+			return this;
+		}
+
 		this._svg = svg.append("line")
 			.attr("x1", this._origin.x - this._vector.x*1000)
 			.attr("y1", this._origin.y - this._vector.y*1000)
@@ -111,8 +116,8 @@ var Line = Shape.extend({
 		return this;
 	},
 
-	_remove: function() {
-		this._svg.remove();
+	_hide: function() {
+		this._svg.style('visibility', 'hidden');
 	},
 
 
@@ -170,7 +175,12 @@ var Polygon = Shape.extend({
 	},
 
 
-	_drawOn: function(svg) {
+	_showOn: function(svg) {
+		if (this._svg) {
+			this._svg.style('visibility', 'visible');
+			return this;
+		}
+		
 		this._svg = svg.append('polygon')
 			.attr('points', this._buildPointsAttr());
 		this._applyClasses();
@@ -178,8 +188,8 @@ var Polygon = Shape.extend({
 	},
 
 
-	_remove: function() {
-		this._svg.remove();
+	_hide: function() {
+		this._svg.style('visibility', 'hidden');
 	},
 
 
