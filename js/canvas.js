@@ -3,18 +3,30 @@ var Canvas = xbase.Class.extend({
 
 	init: function() {
 		var self = this;
+		this.scale = 1.0;
+		this.transformX = "50vw";
+		this.transformY = "45vh";
 		this._canvas = document.querySelector('.canvas');
 
 		this._svg = d3.select(this._canvas).append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%');
 
-		this._g = this._svg.append('g')
-			.style('transform', 'translate(50vw, 45vh)');
+		this._g = this._svg.append('g');
+
 		this._origin = d3adapter.circle(this._g, 0, 0, 0).style('visibility', 'hidden');
 		this._g.convertScreen = function() { 
 			return self.convertScreen.apply(self, arguments);
 		}
+
+
+		this._canvas.addEventListener("mousewheel", function(evt) {
+			if (evt.deltaY > 0) {
+				self.increaseScaleByPerc(-0.1);
+			} else if (evt.deltaY < 0) {
+				self.increaseScaleByPerc(0.1);
+			}
+		});
 
 		this._shapes = [];
 		this._invertedShapes = [];
@@ -23,12 +35,29 @@ var Canvas = xbase.Class.extend({
 		window.setInterval(function() {
 			self.update();
 		}, 1000.0/fps);
+
+		this._applyTransform();
+	},
+
+
+	increaseScaleByPerc: function(deltaPerc) {
+		this.scale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
+		console.log(this.scale);
+		this._applyTransform();
+	},
+
+
+	_applyTransform: function() {
+		var transform = 'translate(' + this.transformX + ', ' + this.transformY + ') scale(' + this.scale + ')';
+		this._g.style('transform', transform);
 	},
 
 
 	convertScreen: function(x, y) {
 		x -= this._origin[0][0].getBoundingClientRect().left;
 		y -= this._origin[0][0].getBoundingClientRect().top;
+		x /= this.scale;
+		y /= this.scale;
 		return {
 			"x": x,
 			"y": y

@@ -8,6 +8,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 400;
 	font-size: 12px;
+	overflow: hidden;
 }
 
 a {
@@ -109,5 +110,5 @@ line.normal {
 }
 
 line.inverted {
-	
+
 }
