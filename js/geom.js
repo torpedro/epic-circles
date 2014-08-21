@@ -168,11 +168,14 @@ geom.invertLine = function(line, invCircle) {
 	var diff = a.subtract(p).subtract(n.multiply(a.subtract(p).dot(n)));
 
 	// Calculate the closest point
-	// var p2 = p.add(diff);
+	// And invert it
+	var p2 = p.add(diff);
+	var p2i = geom.invertPoint(new Point(p2.e(1), p2.e(2)), invCircle);
 
-	// Now we construct the circle out of diff
-	var c = p.add(diff.multiply(0.5));
-	var r = diff.multiply(0.5).distanceFrom($V([0, 0]));
+	// Now we construct the circle out of p2i and the origin of the inversion circle
+	var cx = invCircle.x + ((p2i.x - invCircle.x) / 2);
+	var cy = invCircle.y + ((p2i.y - invCircle.y) / 2);
+	var r = $V([p2i.x - invCircle.x, p2i.y - invCircle.y]).distanceFrom($V([0, 0])) / 2;
 
-	return new Circle(c.e(1), c.e(2), r);
+	return new Circle(cx, cy, r);
 }
