@@ -21,7 +21,7 @@
 <body>
 	<div class="header">
 		<label>
-			<input id="cbShowOriginal" type="checkbox" checked /> Show original shapes		
+			<input id="cbShowOriginal" type="checkbox" /> Show original shapes		
 		</label>
 		<label>
 			<input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes	
@@ -34,6 +34,7 @@
 $(function() {
 	canvas = new Canvas();
 
+	// radius and position of big circle
 	var r = 200;
 	var x = 0;
 	var y = 0;
@@ -68,7 +69,7 @@ $(function() {
 		canvas.setShowOriginalShapes(this.checked);
 	});
 	canvas.setShowOriginalShapes($('#cbShowOriginal').is(':checked'));
-	
+
 	$('#cbShowInverted').click(function() {
 		canvas.setShowInvertedShapes(this.checked);
 	});
