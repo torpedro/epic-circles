@@ -87,81 +87,9 @@ var Circle = Shape.extend({
 
 
 	invertShape: function(shape) {
-		if (shape instanceof Point) return this._invertPoint(shape);
-		if (shape instanceof Circle) return this._invertCircle(shape);
-		if (shape instanceof Polygon) return this._invertPolygon(shape);
+		if (shape instanceof Point) return geom.invertPoint(shape, this);
+		if (shape instanceof Circle) return geom.invertCircle(shape, this);
+		if (shape instanceof Polygon) return geom.invertPolygon(shape, this);
 		return null;
-	},
-
-
-	_invertPoint: function(pt) {
-		// OA x OA' = r*r
-		var dx = pt.x - this.x,
-			dy = pt.y - this.y;
-
-		var sign_x = (dx > 0) ? 1 : -1;
-		var sign_y = (dy > 0) ? 1 : -1;
-
-		var d = Math.sqrt(dx*dx + dy*dy);
-
-		var d2 = (this.r * this.r) / d;
-
-		if (dx == 0) {
-			var dx2 = 0;
-			var dy2 = d2;
-		} else {
-			var ratio = Math.abs(dy / dx);
-			var dx2 = d2 / Math.sqrt(1 + ratio*ratio);
-			var dy2 = dx2 * ratio;
-		}
-
-		dx2 *= sign_x;
-		dy2 *= sign_y;
-
-		return new Point(this.x + dx2, this.y + dy2);
-	},
-
-
-	_invertCircle: function(circle) {
-		// calculate closest and farthest point of circle
-		// invert those and calculate center and radius
-		var v = new Vector(this.x - circle.x, this.y - circle.y)
-		var vn = v.normalized();
-
-		var p1 = new Point(
-			circle.x + vn.x * circle.r,
-			circle.y + vn.y * circle.r
-		);
-		var p2 = new Point(
-			circle.x - vn.x * circle.r,
-			circle.y - vn.y * circle.r
-		);
-
-		// Invert points
-		var p1i = this._invertPoint(p1);
-		var p2i = this._invertPoint(p2);
-
-		// Calculate origin and radius of new circle
-		var v_diameter = new Vector(
-			p1i.x - p2i.x,
-			p1i.y - p2i.y
-		);
-		var r_new = v_diameter.length() / 2;
-		var cx = p1i.x - v_diameter.x/2;
-		var cy = p1i.y - v_diameter.y/2;
-		var newCircle = new Circle(cx, cy, r_new);
-		return newCircle;
-	},
-
-
-	_invertPolygon: function(polygon) {
-		var self = this;
-		var newPoints = [];
-		$.each(polygon._points, function(i, pt) {
-			var invPt = self._invertPoint(pt);
-			newPoints.push(invPt);
-		});
-		var invertedShape = new Polygon(newPoints);
-		return invertedShape;
 	}
 });
