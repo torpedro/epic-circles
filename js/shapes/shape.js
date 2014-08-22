@@ -4,8 +4,8 @@ var Shape = xbase.Control.extend({
 	init: function() {
 		this._super();
 		this.isVisible = false;
-		this.doInvert = true
 	},
+	
 
 	showOn: function(svg) {
 		if (!this.isVisible) {
@@ -31,12 +31,12 @@ var Shape = xbase.Control.extend({
 
 
 	_hide: function() {
-		console.error("Method remove was not implemented!");
+		console.error("Method _hide was not implemented!");
 	},
 
 
 	_showOn: function(svg) {
-		console.error("Method drawOn was not implemented!");
+		console.error("Method _showOn was not implemented!");
 	},
 
 
@@ -44,9 +44,15 @@ var Shape = xbase.Control.extend({
 		console.warn("Method setType was not implemented!");
 	},
 
+
 	remove: function() {
 		this.hide();
 		console.warn("Method remove was not implemented! Just hiding!");
+	},
+
+
+	invertAtCircle: function(circle) {
+		console.error("Method invertAtCircle was not implemented!");
 	}
 });
 

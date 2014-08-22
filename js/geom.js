@@ -32,7 +32,7 @@ geom.Vector = xbase.Class.extend({
 
 
 /**
- * Inverts a  point at the given inversion circle
+ * Inverts a point at the given inversion circle
  * @param Point point       point to be inverted
  * @param Circle invCircle  inversion circle
  * @return Point
