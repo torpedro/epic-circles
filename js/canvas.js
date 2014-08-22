@@ -26,10 +26,12 @@ var Canvas = xbase.Class.extend({
 
 		// Add Event listeners for scaling and translating
 		this._canvas.addEventListener("mousewheel", function(evt) {
+			var x = evt.clientX,
+				y = evt.clientY;
 			if (evt.deltaY > 0) {
-				self.increaseScaleByPerc(-0.1);
+				self.increaseScaleByPerc(-0.1, x, y);
 			} else if (evt.deltaY < 0) {
-				self.increaseScaleByPerc(0.1);
+				self.increaseScaleByPerc(0.1, x, y);
 			}
 		});
 
@@ -63,9 +65,18 @@ var Canvas = xbase.Class.extend({
 	},
 
 
-	increaseScaleByPerc: function(deltaPerc) {
+	increaseScaleByPerc: function(deltaPerc, x, y) {
 		var newScale = Math.round(100 * this.scale * (1.0 + deltaPerc)) / 100;
+		var s = newScale/this.scale;
 		this.scale = newScale;
+		// Scaling increases the distance between the targeted point
+		// and the origin. We can calculate the new origin like this:
+		// y' - Ty' = s * (y - Ty)
+		// y' = y
+		// => Ty' = s * Ty - (s - 1) * y
+		this.transformX = s * this.transformX - (s - 1) * x;
+		this.transformY = s * this.transformY - (s - 1) * y;
+
 		this._applyTransform();
 	},
 
