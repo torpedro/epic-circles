@@ -19,15 +19,26 @@ var Circle = Shape.extend({
 
 
 	_showOn: function(svg) {
-		if (this._circle) {
-			this._circle.style('visibility', '');
-			this._origin.style('visibility', '');
+		if (this._svg) {
+			this._svg.style('visibility', '');
 			return this;
 		}
 
 		var self = this;
-		this._circle = d3adapter.circle(svg, this.x, this.y, this.r);
-		this._origin = d3adapter.circle(svg, this.x, this.y, 5);
+		this._svg = svg.append("g").classed("circle", true);
+
+		this._circle = this._svg.append("circle")
+			.attr("cx", this.x)
+			.attr("cy", this.y)
+			.attr("r", this.r)
+			.classed("circle", "true");
+
+		this._origin = this._svg.append("circle")
+			.attr("cx", this.x)
+			.attr("cy", this.y)
+			.attr("r", 5)
+			.classed("origin", "true");
+
 		this._applyClasses();
 
 		var move = function(e) {
@@ -46,14 +57,12 @@ var Circle = Shape.extend({
 
 	
 	_hide: function() {
-		this._circle.style('visibility', 'hidden');
-		this._origin.style('visibility', 'hidden');
+		this._svg.style('visibility', 'hidden');
 	},
 
 
 	remove: function() {
-		this._circle.remove();
-		this._origin.remove();
+		this._svg.remove();
 	},
 
 
@@ -89,9 +98,8 @@ var Circle = Shape.extend({
 
 
 	_applyClasses: function() {
-		if (this._circle) {
-			this._circle.attr("class", "circle " + this._type);
-			this._origin.attr("class", "origin " + this._type);
+		if (this._svg) {
+			this._svg.attr("class", "circle " + this._type);
 		}
 	},
 

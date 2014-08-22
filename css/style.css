@@ -82,13 +82,13 @@ svg > .background {
 }
 
 
-.inversion.circle {
+/* Inversion Circle */
+g.circle.inversion > .circle {
 	stroke: rgb(117, 0, 0);
 	stroke-dasharray: 2, 2;
-	/*fill: rgba(255, 0, 0, 0.1);*/
 }
 
-.inversion.origin {
+g.circle.inversion > .origin {
 	stroke: rgb(117, 0, 0);
 	fill: rgba(255, 0, 0, 0.2);
 	cursor: move;
@@ -96,23 +96,24 @@ svg > .background {
 
 
 /* Circle */
-circle.inverted.circle {
-	stroke: rgba(0, 0, 0, 0.7);
-}
-circle.inverted.origin {
-	/* Hide the origin of inverted circles */
-	visibility: hidden;
-}
-
-circle.normal.circle {
+g.circle.normal > .circle {
 	stroke: #888;
 }
-circle.normal.origin {
-	visibility: hidden;
+g.circle.normal > .origin {
 	stroke: rgba(0, 0, 0, 0.8);
 	fill: rgba(0, 0, 255, 0.2);
 	cursor: move;
 }
+
+
+g.circle.inverted > .circle {
+	stroke: rgba(0, 0, 0, 0.7);
+}
+g.circle.inverted > .origin {
+	/* Hide the origin of inverted circles */
+	visibility: hidden;
+}
+
 
 /* Polygon */
 polygon.normal {
@@ -122,6 +123,7 @@ polygon.normal {
 polygon.inverted {
 
 }
+
 
 /* Line */
 line.normal {
