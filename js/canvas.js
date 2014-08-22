@@ -9,6 +9,7 @@ var Canvas = xbase.Class.extend({
 
 		// Initialize canvas
 		this._canvas = document.querySelector('.canvas');
+
 		this._svg = d3.select(this._canvas).append('svg')
 			.attr('width', '100%')
 			.attr('height', '100%');
@@ -19,9 +20,13 @@ var Canvas = xbase.Class.extend({
 			.classed('background', true);
 
 		this._g = this._svg.append('g');
-		this._g.convertScreen = function() { 
-			return self.convertScreen.apply(self, arguments);
-		}
+		this._g.canvas = this;
+
+		this._gNormalShapes = this._g.append('g').classed('normalShapes', true);
+		this._gNormalShapes.canvas = this;
+
+		this._gInvertedShapes = this._g.append('g').classed('invertedShapes', true);
+		this._gInvertedShapes.canvas = this;
 
 
 		// Add Event listeners for scaling and translating
@@ -150,7 +155,7 @@ var Canvas = xbase.Class.extend({
 		}
 		if (shape) {
 			shape.setType('inverted');
-			shape.showOn(this._g);
+			shape.showOn(this._gInvertedShapes);
 		}
 	},
 
@@ -186,7 +191,7 @@ var Canvas = xbase.Class.extend({
 	addShape: function(shape) {
 		var self = this;
 		this._shapes.push(shape);
-		shape.showOn(this._g);
+		shape.showOn(this._gNormalShapes);
 		shape.on("move", function() {
 			self._changed = true;
 		});
@@ -199,29 +204,16 @@ var Canvas = xbase.Class.extend({
 	},
 
 
-	setShowOriginalShapes: function(showOriginalShapes) {
-		if (!showOriginalShapes) {
-			for (var n = 0; n < this._shapes.length; ++n) {
-				this._shapes[n].hide();
-			}
-		} else {
-			for (var n = 0; n < this._shapes.length; ++n) {
-				this._shapes[n].showOn(this._g);
-			}
-		}
+	setShowOriginalShapes: function(bShowOriginalShapes) {
+		var visibility = (bShowOriginalShapes) ? 'visible' : 'hidden';
+		this._gNormalShapes.style('visibility', visibility);
 	},
 
-	setShowInvertedShapes: function(showInvertedShapes) {
-		if (!showInvertedShapes) {
-			for (var n = 0; n < this._invertedShapes.length; ++n) {
-				this._invertedShapes[n].hide();
-			}
-		} else {
-			for (var n = 0; n < this._invertedShapes.length; ++n) {
-				this._invertedShapes[n].showOn(this._g);
-			}
-			this.changed = true;
-		}
+
+	setShowInvertedShapes: function(bShowInvertedShapes) {
+		var visibility = (bShowInvertedShapes) ? 'visible' : 'hidden';
+		this._gInvertedShapes.style('visibility', visibility);
+		this.changed = true;
 	}
 
 

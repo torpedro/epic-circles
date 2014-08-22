@@ -42,7 +42,7 @@ var Circle = Shape.extend({
 		this._applyClasses();
 
 		var move = function(e) {
-			var p = svg.convertScreen(e.clientX, e.clientY);
+			var p = svg.canvas.convertScreen(e.clientX, e.clientY);
 			self.updatePosition(p.x, p.y);
 		};
 		this._origin.on("mousedown", function() {
