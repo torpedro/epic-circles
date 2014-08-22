@@ -160,9 +160,6 @@ var Canvas = xbase.Class.extend({
 		var numShapes = this._shapes.length;
 
 		for (var i = this._invertedShapes.length; i < numShapes; ++i) {
-			// var shape = this._shapes[i];
-			// var invShape = this._invCircle.invertShape(shape);
-			// this._addInvertedShape(invShape);
 			this._addInvertedShape(null);
 		}
 
@@ -181,26 +178,6 @@ var Canvas = xbase.Class.extend({
 			}
 		}
 		this._applyTransform();
-		// var self = this;
-		// $.each(this._shapes, function(i, shape) {
-		// 	var newInvShape = null;
-		// 	// Check if we are supposed to invert the shape
-		// 	if (shape.doInvert) newInvShape = self._invCircle.invertShape(shape);
-
-		// 	if (i < self._invertedShapes.length) {
-		// 		var invShape = self._invertedShapes[i];
-		// 		if (invShape) {
-		// 			var res = invShape.copy(newInvShape);
-		// 			if (res === false) {
-		// 				// copy didn't work, because the type of shape has changed
-		// 				console.log("Shape changed", newInvShape)
-		// 				self._addInvertedShape(newInvShape, i);
-		// 			}
-		// 		}
-		// 	} else {
-		// 		self._addInvertedShape(newInvShape);
-		// 	}
-		// });
 	},
 
 
