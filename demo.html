@@ -34,28 +34,30 @@
 <script type="text/javascript">
 $(function() {
 	canvas = new Canvas();
+	var r = 200;
 	var x = 0;
 	var y = 0;
 
-	var invCircle = new Circle(x, y, 120);
-	canvas.setInversionCircle(invCircle);
+	var invCircle = new Circle(x, y+363.5, r);
+	canvas.addInversionCircle(invCircle);
+
+	var invCircle2 = new Circle(x, y-363.5, r);
+	canvas.addInversionCircle(invCircle2);
 
 	var metaCircle = new Circle(x, y, 250);
-	var points = metaCircle.calculatePoints(20);
+	var points = metaCircle.calculatePoints(40);
 	$.each(points, function(i, p) {
 		canvas.addShape(new Circle(p.x, p.y, 19.6));
 	});
 
-	canvas.addShape(new Rectangle(-20, 260, 40, 40));
 	canvas.addShape(new Rectangle(-20, 180, 40, 40));
 	canvas.addShape(new Rectangle(-20, 100, 40, 40));
 	canvas.addShape(new Rectangle(-20, 20, 40, 40));
 	canvas.addShape(new Rectangle(-20, -60, 40, 40));
 	canvas.addShape(new Rectangle(-20, -140, 40, 40));
 	canvas.addShape(new Rectangle(-20, -220, 40, 40));
-	canvas.addShape(new Rectangle(-20, -300, 40, 40));
 
-	canvas.addShape(new Line(0, 100, 1, 0));
+	// canvas.addShape(new Line(0, 100, 1, 0));
 
 
 
