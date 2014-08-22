@@ -48,4 +48,8 @@ var Line = Shape.extend({
 			this._svg.attr("class", this._type);
 		}
 	},
+
+	invertAtCircle: function(invCircle) {
+		return geom.invertLine(this, invCircle);
+	}
 });

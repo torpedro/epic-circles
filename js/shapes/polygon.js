@@ -69,6 +69,10 @@ var Polygon = Shape.extend({
 			this._svg.attr("class", this._type);
 		}
 	},
+
+	invertAtCircle: function(circle) {
+		return geom.invertPolygon(this, circle);
+	}
 });
 
 

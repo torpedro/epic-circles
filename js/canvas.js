@@ -164,13 +164,15 @@ var Canvas = xbase.Class.extend({
 		}
 
 		for (var i = 0; i < numShapes; ++i) {
+			var shape = this._shapes[i];
 			var invShape = this._invertedShapes[i];
-			var newInvShape = this._invCircle.invertShape(this._shapes[i]);
+			var newInvShape = shape.invertAtCircle(this._invCircle);
 
 			if (invShape) {
 				var res = invShape.copy(newInvShape);
 				if (res === false) {
 					// copy didn't work, because the type of shape has changed
+					// so we need to overwrite the shape
 					this._addInvertedShape(newInvShape, i);
 				}
 			} else if (newInvShape) {

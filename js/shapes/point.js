@@ -28,6 +28,11 @@ var Point = Shape.extend({
 		this.x = x;
 		this.y = y;
 		// TODO: update position of this._svg;
+	},
+
+
+	invertAtCircle: function(circle) {
+		return geom.invertPoint(this, circle);
 	}
 });
 
