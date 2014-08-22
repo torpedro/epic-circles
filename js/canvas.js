@@ -19,7 +19,7 @@ var Canvas = xbase.Class.extend({
 			.attr('height', '100%')
 			.classed('background', true);
 
-		this._g = this._svg.append('g');
+		this._g = this._svg.append('g').classed('plane', true);
 		this._g.canvas = this;
 
 		this._gNormalShapes = this._g.append('g').classed('normalShapes', true);
@@ -108,6 +108,20 @@ var Canvas = xbase.Class.extend({
 
 	_drawGrid: function() {
 		var grid = this._g.append("g").classed("grid", true);
+		var min = this.convertScreen(0, 0);
+		var max = this.convertScreen($(this._canvas).width(), $(this._canvas).height());
+
+		// var steps = 5;
+		// var stepX = (max.x - min.x) / steps;
+		// var stepY = (max.y - min.y) / steps;
+		// console.log(stepY)
+		// for (var i = -5; i < 5; ++i) {
+		// 	grid.append('line')
+		// 		.attr("x1", min.x)
+		// 		.attr("y1", i * stepY)
+		// 		.attr("x2", max.x)
+		// 		.attr("y2", i * stepY);
+		// }
 		grid.append("line")
 			.attr("x1", "-25000")
 			.attr("y1", "0")
