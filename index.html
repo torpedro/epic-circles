@@ -23,12 +23,9 @@
 </head>
 <body>
 	<div class="header">
-		<label>
-			<input id="cbShowOriginal" type="checkbox" /> Show original shapes		
-		</label>
-		<label>
-			<input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes	
-		</label>
+		<label><input id="cbShowOriginal" type="checkbox" /> Show original shapes</label>
+		<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
+		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
 	</div>
 	<div class="canvas"></div>
 	<div class="footer">Find the sources at Github: <a href="https://github.com/torpedro/epic-circles" target="_blank">https://github.com/torpedro/epic-circles</a></div>
@@ -56,7 +53,7 @@ $(function() {
 
 	// Circles within the lines
 	// canvas.addShape(new Circle(x, y+r/4, r/4));
-	var numCircles = 50;
+	var numCircles = 15;
 	for (var i = -numCircles; i <= numCircles; ++i) {
 		// Bigger circle
 		canvas.addShape(new Circle(x-(i*r/2), y+r/4, r/4));
@@ -77,6 +74,11 @@ $(function() {
 		canvas.setShowInvertedShapes(this.checked);
 	});
 	canvas.setShowInvertedShapes($('#cbShowInverted').is(':checked'));
+
+	$('#cbShowInversionCircles').click(function() {
+		canvas.setShowInversionCircles(this.checked);
+	});
+	canvas.setShowInversionCircles($('#cbShowInversionCircles').is(':checked'));
 });
 </script>
 </body>

@@ -24,7 +24,7 @@ var Canvas = xbase.Class.extend({
 		var self = this;
 		this._inversionCircles.push(circle);
 		this._invertedShapes.push([]);
-		circle.showOn(this._g);
+		circle.showOn(this._gInversionCircles);
 		circle.setType('inversion');
 		circle.on("move", function() {
 			self._changed = true;
@@ -48,6 +48,16 @@ var Canvas = xbase.Class.extend({
 	setShowInvertedShapes: function(bShowInvertedShapes) {
 		var visibility = (bShowInvertedShapes) ? 'visible' : 'hidden';
 		this._gInvertedShapes.style('visibility', visibility);
+		this.changed = true;
+	},
+
+	/**
+	 * Shows or hides all inversion circles.
+	 * @param bool bShowInversionCircles
+	 */
+	setShowInversionCircles: function(bShowInversionCircles) {
+		var visibility = (bShowInversionCircles) ? 'visible' : 'hidden';
+		this._gInversionCircles.style('visibility', visibility);
 		this.changed = true;
 	},
 
@@ -115,6 +125,9 @@ var Canvas = xbase.Class.extend({
 
 		this._gInvertedShapes = this._g.append('g').classed('invertedShapes', true);
 		this._gInvertedShapes.canvas = this;
+
+		this._gInversionCircles = this._g.append('g').classed('inversionCircles', true);
+		this._gInversionCircles.canvas = this;
 
 
 		// Attach Event listeners for scaling and translating
