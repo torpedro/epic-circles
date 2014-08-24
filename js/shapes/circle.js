@@ -13,6 +13,7 @@ var Circle = Shape.extend({
 	copy: function(otherCircle) {
 		if (!(otherCircle instanceof Circle)) return false;
 		this.updatePosition(otherCircle.x, otherCircle.y);
+		this.r = otherCircle.r;
 		this._circle.attr('r', otherCircle.r);
 		return true;
 	},
@@ -63,6 +64,7 @@ var Circle = Shape.extend({
 
 	remove: function() {
 		this._svg.remove();
+		this._svg = null;
 	},
 
 

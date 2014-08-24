@@ -26,6 +26,7 @@
 		<label><input id="cbShowOriginal" type="checkbox" /> Show original shapes</label>
 		<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
 		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
+		<button id="btnConvertInvertedShapes">Convert Shapes</button>
 	</div>
 	<div class="canvas"></div>
 	<div class="footer">Find the sources at Github: <a href="https://github.com/torpedro/epic-circles" target="_blank">https://github.com/torpedro/epic-circles</a></div>
@@ -79,6 +80,10 @@ $(function() {
 		canvas.setShowInversionCircles(this.checked);
 	});
 	canvas.setShowInversionCircles($('#cbShowInversionCircles').is(':checked'));
+
+	$('#btnConvertInvertedShapes').click(function() {
+		canvas.convertInvertedShapes();
+	});
 });
 </script>
 </body>

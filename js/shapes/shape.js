@@ -8,7 +8,7 @@ var Shape = xbase.Control.extend({
 	
 
 	showOn: function(svg) {
-		if (!this.isVisible) {
+		if (!this._svg || !this.isVisible) {
 			this._showOn(svg);
 			this.isVisible = true;
 		}
@@ -17,7 +17,7 @@ var Shape = xbase.Control.extend({
 
 
 	hide: function() {
-		if (this.isVisible) {
+		if (this._svg && this.isVisible) {
 			this._hide();
 			this.isVisible = false;
 		}

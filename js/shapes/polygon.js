@@ -72,6 +72,11 @@ var Polygon = Shape.extend({
 
 	invertAtCircle: function(circle) {
 		return geom.invertPolygon(this, circle);
+	},
+
+	remove: function() {
+		this._svg.remove();
+		this._svg = null;
 	}
 });
 

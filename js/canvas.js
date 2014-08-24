@@ -9,6 +9,7 @@ var Canvas = xbase.Class.extend({
 		var self = this;
 		this._shapes.push(shape);
 		shape.showOn(this._gNormalShapes);
+		shape.setType('normal');
 		shape.on("move", function() {
 			self._changed = true;
 		});
@@ -61,6 +62,24 @@ var Canvas = xbase.Class.extend({
 		this.changed = true;
 	},
 
+
+	convertInvertedShapes: function() {
+		var newShapes = [];
+		var newInvertedShapes = [];
+		$.each(this._invertedShapes, function(i, invertedShapes) {
+			newShapes = newShapes.concat(invertedShapes);
+			newInvertedShapes.push([]);
+		});
+
+		this.clear();
+
+		this._invertedShapes = newInvertedShapes;
+		for (var i = 0; i < newShapes.length; ++i) {
+			this.addShape(newShapes[i]);
+		}
+		this._update();
+	},
+
 	/**
 	 * Converts position on screen into position in the canvas.
 	 * Useful for mapping the mouse position to canvas coordinates.
@@ -76,6 +95,19 @@ var Canvas = xbase.Class.extend({
 			"x": x,
 			"y": y
 		};
+	},
+
+
+	clear: function() {
+		for (var i = 0; i < this._shapes.length; ++i) {
+			this._shapes[i].remove();
+			for (var j = 0; j < this._invertedShapes.length; ++j) {
+				if (this._invertedShapes[j][i]) this._invertedShapes[j][i].remove();
+			}
+		}
+		this._shapes = [];
+		this._invertedShapes = [];
+		return this;
 	},
 
 

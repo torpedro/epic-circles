@@ -16,6 +16,7 @@ var Line = Shape.extend({
 
 	remove: function() {
 		this._svg.remove();
+		this._svg = null;
 	},
 
 	_showOn: function(svg) {
@@ -51,5 +52,11 @@ var Line = Shape.extend({
 
 	invertAtCircle: function(invCircle) {
 		return geom.invertLine(this, invCircle);
+	},
+
+
+	remove: function() {
+		this._svg.remove();
+		this._svg = null;
 	}
 });
