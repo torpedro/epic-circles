@@ -211,24 +211,30 @@ var Canvas = xbase.Class.extend({
 				e.preventDefault();
 			});
 
-			document.querySelector('#btnSpawnCircle').addEventListener('click', function() {
+			$('#btnSpawnCircle').click(function() {
 				var center = self.convertScreen(contextX, contextY);
-				var circle = new Circle(center.x, center.y, 100);
-				self.addShape(circle);
+				var shape = new Circle(center.x, center.y, 100);
+				self.addShape(shape);
 			});
 			
-			document.querySelector('#btnSpawnLine').addEventListener('click', function() {
+			$('#btnSpawnLine').click(function() {
 				var center = self.convertScreen(contextX, contextY);
-				var line = new Line(center.x, center.y, 1, -1);
-				self.addShape(line);
+				var shape = new Line(center.x, center.y, 1, -1);
+				self.addShape(shape);
 			});
 			
-			document.querySelector('#btnSpawnRectangle').addEventListener('click', function() {
+			$('#btnSpawnRectangle').click(function() {
 				var center = self.convertScreen(contextX, contextY);
-				var rect = new Rectangle(center.x, center.y, 50, 50);
-				self.addShape(rect);
+				var shape = new Rectangle(center.x, center.y, 50, 50);
+				self.addShape(shape);
 			});
-		});//();
+			
+			$('#btnSpawnTriangle').click(function() {
+				var center = self.convertScreen(contextX, contextY);
+				var shape = new Triangle(center.x, center.y, 100);
+				self.addShape(shape);
+			});
+		})();
 	},
 
 

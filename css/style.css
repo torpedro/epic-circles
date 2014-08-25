@@ -139,7 +139,7 @@ g.polygon.inverted > .origin {
 /* Circle */
 g.circle.normal > .circle {
 	stroke: #888;
-	cursor: e-resize;
+	cursor: nesw-resize;
 }
 
 g.circle.inverted > .circle {
