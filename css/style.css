@@ -147,10 +147,14 @@ polygon.inverted {
 
 
 /* Line */
-line.normal {
+g.line.normal > line {
 	stroke: #888;
 }
+g.line.normal > .origin {
+	stroke: rgba(0, 0, 0, 0.8);
+	fill: rgba(0, 0, 255, 0.2);
+	cursor: move;
+}
 
-line.inverted {
-
+g.line.inverted > line {
 }

@@ -12,9 +12,8 @@ var Circle = Shape.extend({
 
 	copy: function(otherCircle) {
 		if (!(otherCircle instanceof Circle)) return false;
-		this.updatePosition(otherCircle.x, otherCircle.y);
-		this.r = otherCircle.r;
-		this._circle.attr('r', otherCircle.r);
+		this.setPosition(otherCircle.x, otherCircle.y);
+		this.setRadius(otherCircle.r);
 		return true;
 	},
 
@@ -43,9 +42,7 @@ var Circle = Shape.extend({
 		this._applyClasses();
 
 		// Move Handler
-		Shape.makeDraggable(this._origin, svg.canvas, function(x, y) {
-			self.updatePosition(x,y);
-		});
+		Shape.makeDraggable(this._origin, svg.canvas, this.setPosition, this);
 
 		// Resize Handler
 		Shape.makeDraggable(this._circle, svg.canvas, function(x, y) {
@@ -68,7 +65,7 @@ var Circle = Shape.extend({
 	},
 
 
-	updatePosition: function(x, y) {
+	setPosition: function(x, y) {
 		this.x = x;
 		this.y = y;
 		this._circle.attr('cx', x);

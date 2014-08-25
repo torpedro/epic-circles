@@ -58,10 +58,10 @@ var Shape = xbase.Control.extend({
 
 
 
-Shape.makeDraggable = function(draggableSVG, canvas, callback) {
+Shape.makeDraggable = function(draggableSVG, canvas, callback, context) {
 	var move = function(e) {
 		var p = canvas.convertScreen(e.clientX, e.clientY);
-		callback(p.x, p.y);
+		callback.call(context, p.x, p.y);
 	};
 	draggableSVG.on("mousedown", function() {
 		window.addEventListener('mousemove', move, true);
