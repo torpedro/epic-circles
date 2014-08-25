@@ -56,3 +56,17 @@ var Shape = xbase.Control.extend({
 	}
 });
 
+
+
+Shape.makeDraggable = function(draggableSVG, canvas, callback) {
+	var move = function(e) {
+		var p = canvas.convertScreen(e.clientX, e.clientY);
+		callback(p.x, p.y);
+	};
+	draggableSVG.on("mousedown", function() {
+		window.addEventListener('mousemove', move, true);
+	}, false);
+	window.addEventListener("mouseup", function() {
+		window.removeEventListener('mousemove', move, true);
+	}, false);
+};

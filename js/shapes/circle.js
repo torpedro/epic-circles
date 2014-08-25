@@ -43,30 +43,15 @@ var Circle = Shape.extend({
 		this._applyClasses();
 
 		// Move Handler
-		var move = function(e) {
-			var p = svg.canvas.convertScreen(e.clientX, e.clientY);
-			self.updatePosition(p.x, p.y);
-		};
-		this._origin.on("mousedown", function() {
-			window.addEventListener('mousemove', move, true);
-		}, false);
-		window.addEventListener("mouseup", function() {
-			window.removeEventListener('mousemove', move, true);
-		}, false);
-
+		Shape.makeDraggable(this._origin, svg.canvas, function(x, y) {
+			self.updatePosition(x,y);
+		});
 
 		// Resize Handler
-		var resize = function(e) {
-			var p = svg.canvas.convertScreen(e.clientX, e.clientY);
-			var diff = $V([p.x, p.y]).distanceFrom($V([self.x, self.y]));
-			self.setRadius(diff);
-		}
-		this._circle.on("mousedown", function() {
-			window.addEventListener('mousemove', resize, true);
-		}, false);
-		window.addEventListener("mouseup", function() {
-			window.removeEventListener('mousemove', resize, true);
-		}, false);
+		Shape.makeDraggable(this._circle, svg.canvas, function(x, y) {
+			var r = $V([x, y]).distanceFrom($V([self.x, self.y]));
+			self.setRadius(r);
+		});
 
 		return this;
 	},
