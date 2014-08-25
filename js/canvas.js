@@ -190,43 +190,45 @@ var Canvas = xbase.Class.extend({
 
 
 		// Context Menu
-		var contextX,
-			contextY;
-		this._canvas.addEventListener('contextmenu', function(e) {
-			contextX = e.clientX;
-			contextY = e.clientY;
+		(function() {
+			var contextX,
+				contextY;
+			self._canvas.addEventListener('contextmenu', function(e) {
+				contextX = e.clientX;
+				contextY = e.clientY;
 
-			// Show context-menu
-			$('#contextMenu').show()
-				.css('left', contextX)
-				.css('top', contextY);
+				// Show context-menu
+				$('#contextMenu').show()
+					.css('left', contextX)
+					.css('top', contextY);
 
-			var hide = function(e) {
-				$('#contextMenu').hide();
-				window.removeEventListener('click', hide);
-			};
-			window.addEventListener('click', hide);
+				var hide = function(e) {
+					$('#contextMenu').hide();
+					window.removeEventListener('click', hide);
+				};
+				window.addEventListener('click', hide);
 
-			e.preventDefault();
-		});
+				e.preventDefault();
+			});
 
-		document.querySelector('#btnSpawnCircle').addEventListener('click', function() {
-			var center = self.convertScreen(contextX, contextY);
-			var circle = new Circle(center.x, center.y, 100);
-			self.addShape(circle);
-		});
-		
-		document.querySelector('#btnSpawnLine').addEventListener('click', function() {
-			var center = self.convertScreen(contextX, contextY);
-			var line = new Line(center.x, center.y, 1, -1);
-			self.addShape(line);
-		});
-		
-		document.querySelector('#btnSpawnRectangle').addEventListener('click', function() {
-			var center = self.convertScreen(contextX, contextY);
-			var rect = new Rectangle(center.x, center.y, 50, 50);
-			self.addShape(rect);
-		});
+			document.querySelector('#btnSpawnCircle').addEventListener('click', function() {
+				var center = self.convertScreen(contextX, contextY);
+				var circle = new Circle(center.x, center.y, 100);
+				self.addShape(circle);
+			});
+			
+			document.querySelector('#btnSpawnLine').addEventListener('click', function() {
+				var center = self.convertScreen(contextX, contextY);
+				var line = new Line(center.x, center.y, 1, -1);
+				self.addShape(line);
+			});
+			
+			document.querySelector('#btnSpawnRectangle').addEventListener('click', function() {
+				var center = self.convertScreen(contextX, contextY);
+				var rect = new Rectangle(center.x, center.y, 50, 50);
+				self.addShape(rect);
+			});
+		});//();
 	},
 
 

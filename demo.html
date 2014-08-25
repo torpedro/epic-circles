@@ -47,11 +47,11 @@ $(function() {
 	var invCircle = new Circle(x, y+363.5, r);
 	canvas.addInversionCircle(invCircle);
 
-	var invCircle2 = new Circle(x, y-363.5, r);
-	canvas.addInversionCircle(invCircle2);
+	// var invCircle2 = new Circle(x, y-363.5, r);
+	// canvas.addInversionCircle(invCircle2);
 
 	var metaCircle = new Circle(x, y, 250);
-	var points = metaCircle.calculatePoints(40);
+	var points = metaCircle.calculatePoints(10);
 	$.each(points, function(i, p) {
 		canvas.addShape(new Circle(p.x, p.y, 19.6));
 	});
@@ -63,7 +63,7 @@ $(function() {
 	canvas.addShape(new Rectangle(-20, -140, 40, 40));
 	canvas.addShape(new Rectangle(-20, -220, 40, 40));
 
-	// canvas.addShape(new Line(0, 100, 1, 0));
+	canvas.addShape(new Line(0, 100, 1, -1));
 
 
 

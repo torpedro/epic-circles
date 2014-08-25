@@ -42,6 +42,7 @@ var Circle = Shape.extend({
 
 		this._applyClasses();
 
+		// Move Handler
 		var move = function(e) {
 			var p = svg.canvas.convertScreen(e.clientX, e.clientY);
 			self.updatePosition(p.x, p.y);
@@ -51,6 +52,20 @@ var Circle = Shape.extend({
 		}, false);
 		window.addEventListener("mouseup", function() {
 			window.removeEventListener('mousemove', move, true);
+		}, false);
+
+
+		// Resize Handler
+		var resize = function(e) {
+			var p = svg.canvas.convertScreen(e.clientX, e.clientY);
+			var diff = $V([p.x, p.y]).distanceFrom($V([self.x, self.y]));
+			self.setRadius(diff);
+		}
+		this._circle.on("mousedown", function() {
+			window.addEventListener('mousemove', resize, true);
+		}, false);
+		window.addEventListener("mouseup", function() {
+			window.removeEventListener('mousemove', resize, true);
 		}, false);
 
 		return this;
@@ -75,6 +90,13 @@ var Circle = Shape.extend({
 		this._circle.attr('cy', y);
 		this._origin.attr('cx', x);
 		this._origin.attr('cy', y);
+		this.trigger('move');
+	},
+
+
+	setRadius: function(r) {
+		this.r = r;
+		this._circle.attr('r', r);
 		this.trigger('move');
 	},
 
