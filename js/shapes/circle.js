@@ -113,3 +113,20 @@ var Circle = Shape.extend({
 		return geom.invertCircle(this, invCircle);
 	}
 });
+
+
+
+Circle.calculatePoints = function(x, y, r, num, offset) {
+	if (!offset) offset = 0;
+
+	var step = (2*Math.PI) / num;
+	var points = [];
+	for (var i = 0; i < num; ++i) {
+		var p = new Point(
+			x + Math.sin(offset + step*i) * r,
+			y + Math.cos(offset + step*i) * r
+		);
+		points.push(p);
+	}
+	return points;
+}

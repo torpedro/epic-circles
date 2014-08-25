@@ -137,3 +137,10 @@ var Rectangle = Polygon.extend({
 		this._super([p1, p2, p3, p4]);
 	}
 });
+
+var Triangle = Polygon.extend({
+	init: function(x, y, r) {
+		var points = Circle.calculatePoints(x, y, r, 3, Math.PI)
+		this._super(points);
+	}
+});

@@ -45,11 +45,7 @@ var Line = Shape.extend({
 		Shape.makeDraggable(origin, svg.canvas, this.setPosition, this);
 
 		this._applyClasses();
-
-
-
-
-
+		
 		return this;
 	},
 
