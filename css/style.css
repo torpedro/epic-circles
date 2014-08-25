@@ -115,45 +115,49 @@ g.circle.inversion > .origin {
 }
 
 
+/**
+ * Move Handlers for Circles, Lines and Polygons
+ */
+g.line.normal > .origin,
+g.circle.normal > .origin,
+g.polygon.normal > .origin {
+	stroke: rgba(0, 0, 0, 0.8);
+	fill: rgba(0, 0, 255, 0.2);
+	cursor: move;
+}
+
+g.line.inverted > .origin,
+g.circle.inverted > .origin,
+g.polygon.inverted > .origin {
+	/* Hide the origin of inverted shapes */
+	visibility: hidden;
+}
+
+
+
+
 /* Circle */
 g.circle.normal > .circle {
 	stroke: #888;
 	cursor: e-resize;
 }
-g.circle.normal > .origin {
-	stroke: rgba(0, 0, 0, 0.8);
-	fill: rgba(0, 0, 255, 0.2);
-	cursor: move;
-}
-
 
 g.circle.inverted > .circle {
 	stroke: rgba(0, 0, 0, 0.7);
 }
-g.circle.inverted > .origin {
-	/* Hide the origin of inverted circles */
-	visibility: hidden;
-}
-
 
 /* Polygon */
-polygon.normal {
+g.polygon.normal > polygon {
 	stroke: #888;
 }
 
-polygon.inverted {
+g.polygon.inverted > polygon {
 
 }
-
 
 /* Line */
 g.line.normal > line {
 	stroke: #888;
-}
-g.line.normal > .origin {
-	stroke: rgba(0, 0, 0, 0.8);
-	fill: rgba(0, 0, 255, 0.2);
-	cursor: move;
 }
 
 g.line.inverted > line {

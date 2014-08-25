@@ -11,7 +11,6 @@ var Polygon = Shape.extend({
 
 	copy: function(otherPolygon) {
 		this.setPoints(otherPolygon._points);
-		this._svg.attr('points', this._buildPointsAttr());
 	},
 
 
@@ -27,17 +26,26 @@ var Polygon = Shape.extend({
 			}
 		});
 		this._points = points;
-		this._pointsString = "";
+
+		this._updatePolygonPointsAttr();
 	},
 
+	_updatePolygonPointsAttr: function() {
+		if (!this._polygon) return;
 
-	_buildPointsAttr: function() {
 		// TODO: Catch infity points
 		var pointsString = "";
 		$.each(this._points, function(i, pt) {
 			pointsString += pt.x + ',' + pt.y + ' ';
 		});
-		return pointsString;
+
+		this._polygon.attr('points', pointsString);
+
+		var center = this.getCenter();
+		this._origin.attr('cx', center.x)
+			.attr('cy', center.y);
+
+		this.trigger('move');
 	},
 
 
@@ -47,8 +55,18 @@ var Polygon = Shape.extend({
 			return this;
 		}
 
-		this._svg = svg.append('polygon')
-			.attr('points', this._buildPointsAttr());
+		this._svg = svg.append('g');
+
+		this._polygon = this._svg.append('polygon');
+
+		this._origin = this._svg.append('circle')
+			.attr('r', 5)
+			.classed("origin", "true");
+
+		this._updatePolygonPointsAttr();
+
+		Shape.makeDraggable(this._origin, svg.canvas, this.setCenter, this);
+
 		this._applyClasses();
 		return this;
 	},
@@ -66,7 +84,7 @@ var Polygon = Shape.extend({
 
 	_applyClasses: function() {
 		if (this._svg) {
-			this._svg.attr("class", this._type);
+			this._svg.attr("class", 'polygon ' + this._type);
 		}
 	},
 
@@ -77,6 +95,34 @@ var Polygon = Shape.extend({
 	remove: function() {
 		this._svg.remove();
 		this._svg = null;
+	},
+
+
+	getCenter: function() {
+		var xSum = 0,
+			ySum = 0;
+		$.each(this._points, function(i, point) {
+			xSum += point.x;
+			ySum += point.y;
+		});
+		return {
+			'x': xSum / this._points.length,
+			'y': ySum / this._points.length
+		}
+	},
+
+	setCenter: function(x, y) {
+		// calculate diff to current center
+		var center = this.getCenter();
+		var diffX = x - center.x;
+		var diffY = y - center.y;
+
+		$.each(this._points, function(i, point) {
+			point.x += diffX;
+			point.y += diffY;
+		});
+
+		this._updatePolygonPointsAttr();
 	}
 });
 
