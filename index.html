@@ -11,6 +11,7 @@
 
 	<script type="text/javascript" src="js/geom.js"></script>
 	<script type="text/javascript" src="js/canvas.js"></script>
+	<script type="text/javascript" src="js/presets.js"></script>
 
 	<script type="text/javascript" src="js/shapes/shape.js"></script>
 	<script type="text/javascript" src="js/shapes/point.js"></script>
@@ -28,6 +29,13 @@
 		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
 		<button id="btnConvertInvertedShapes">Convert Shapes</button>
 	</div>
+	<div id="contextMenu">
+		<a id="btnSpawnCircle">Spawn Circle</a>
+		<a id="btnSpawnLine">Spawn Line</a>
+		<a id="btnSpawnRectangle">Spawn Rectangle</a>
+		<a id="btnSpawnTriangle">Spawn Triangle</a>
+	</div>
+	<div id="presetLoader"></div>
 	<div class="canvas"></div>
 	<div class="footer">Find the sources at Github: <a href="https://github.com/torpedro/epic-circles" target="_blank">https://github.com/torpedro/epic-circles</a></div>
 
@@ -35,33 +43,22 @@
 $(function() {
 	canvas = new Canvas();
 
-	// radius and position of big circle
-	var r = 200;
-	var x = 0;
-	var y = 0;
 
-	var invCircle = new Circle(x, y+r, r);
-	canvas.addInversionCircle(invCircle);
+	// Load the clear preset by default
+	var hash = window.location.hash;
+	var preset = (hash && PresetLoader.hasPreset(hash.substring(1))) ? hash.substring(1) : 'Clear';
+	PresetLoader.load(preset, canvas);
 
 
-	// Biggest circle
-	// canvas.addShape(new Circle(x, y, r));
-	// canvas.addShape(new Circle(x, y-r/2, r/2));
-	// canvas.addShape(new Circle(x, y+r/2, r/2));
 
-	canvas.addShape(new Line(x, y, 1, 0));
-	canvas.addShape(new Line(x, y+r/2, 1, 0));
-
-	// Circles within the lines
-	// canvas.addShape(new Circle(x, y+r/4, r/4));
-	var numCircles = 15;
-	for (var i = -numCircles; i <= numCircles; ++i) {
-		// Bigger circle
-		canvas.addShape(new Circle(x-(i*r/2), y+r/4, r/4));
-		// Smaller circle
-		canvas.addShape(new Circle(x+r/4-(i*r/2), y+r/16, r/16));
-	}
-
+	// Attach to preset loader links
+	$.each(PresetLoader.presets, function(key, loader) {
+		var link = $('<a href="#' + key + '">' + key + '</a>');
+		link.click(function() {
+			PresetLoader.load(key, canvas);
+		});
+		$('#presetLoader').append(link);
+	});
 
 
 

@@ -105,6 +105,10 @@ var Canvas = xbase.Class.extend({
 				if (this._invertedShapes[j][i]) this._invertedShapes[j][i].remove();
 			}
 		}
+		for (var i = 0; i < this._inversionCircles.length; ++i) {
+			this._inversionCircles[i].remove();
+		}
+		this._inversionCircles = [];
 		this._shapes = [];
 		this._invertedShapes = [];
 		return this;
