@@ -182,3 +182,7 @@ g.line.normal > line {
 
 g.line.inverted > line {
 }
+
+.circleSegment {
+	stroke: black;
+}
