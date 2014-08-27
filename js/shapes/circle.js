@@ -77,6 +77,7 @@ var Circle = Shape.extend({
 
 
 	setRadius: function(r) {
+		// Prevent resizing if it's an inverted circle
 		this.r = r;
 		this._circle.attr('r', r);
 		this.trigger('move');

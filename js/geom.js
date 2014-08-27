@@ -207,7 +207,7 @@ geom.invertLineSegment = function(lineSegment, invCircle) {
 	var ang2 = Math.atan2((p2.x - x), -(p2.y - y)) + 2*Math.PI;
 
 	if (ang1 > ang2) ang1 -= 2 * Math.PI;
-	console.log(ang1, ang2);
+	// console.log(ang1, ang2);
 
 	return new CircleSegment(x, y, r, ang1, ang2);
 }

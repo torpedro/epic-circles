@@ -29,10 +29,10 @@ var Line = Shape.extend({
 		this._svg = svg.append('g');
 
 		var line = this._svg.append('line')
-			.attr('x1', this._origin.x - this._vector.x*1000)
-			.attr('y1', this._origin.y - this._vector.y*1000)
-			.attr('x2', this._origin.x + this._vector.x*1000)
-			.attr('y2', this._origin.y + this._vector.y*1000);
+			.attr('x1', this._origin.x - this._vector.x*6000)
+			.attr('y1', this._origin.y - this._vector.y*6000)
+			.attr('x2', this._origin.x + this._vector.x*6000)
+			.attr('y2', this._origin.y + this._vector.y*6000);
 
 		var origin = this._svg.append('circle')
 			.attr("cx", this._origin.x)
@@ -45,7 +45,7 @@ var Line = Shape.extend({
 		Shape.makeDraggable(origin, svg.canvas, this.setPosition, this);
 
 		this._applyClasses();
-		
+
 		return this;
 	},
 
