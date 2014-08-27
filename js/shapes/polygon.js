@@ -30,6 +30,7 @@ var Polygon = Shape.extend({
 		this._updatePolygonPointsAttr();
 	},
 
+
 	_updatePolygonPointsAttr: function() {
 		if (!this._polygon) return;
 
@@ -42,8 +43,8 @@ var Polygon = Shape.extend({
 		this._polygon.attr('points', pointsString);
 
 		var center = this.getCenter();
-		this._origin.attr('cx', center.x)
-			.attr('cy', center.y);
+		this._origin.attr('cx', center.x).attr('cy', center.y);
+		this._rotator.attr('cx', center.x + this._direction.e(1)*18).attr('cy', center.y + this._direction.e(2)*18);
 
 		this.trigger('move');
 	},
@@ -63,10 +64,34 @@ var Polygon = Shape.extend({
 			.attr('r', 5)
 			.classed("origin", "true");
 
-		this._updatePolygonPointsAttr();
+		this._rotator = this._svg.append('circle')
+			.attr('r', 5)
+			.classed("rotator", "true");
+
 
 		Shape.makeDraggable(this._origin, svg.canvas, this.setCenter, this);
 
+		this._direction = $V([1, -1]).toUnitVector();
+		Shape.makeDraggable(this._rotator, svg.canvas, function(x, y) {
+			var center = this.getCenter();
+			var newDirection = $V([x - center.x, y - center.y]).toUnitVector();
+			var angle = newDirection.angleFrom(this._direction);
+
+			// We need to figure out if this rotation is clockwise or counter-clockwise.
+			// We do half the rotation we just calculated and calculate the new angle.
+			// We'd expect the new angle to be smaller, because we've already rotated half way.
+			// If this angle is greater than the original angle, we have a counter-clockwise rotation.
+			var half = this._direction.rotate(angle/2, $V([0, 0]));
+			var angle2 = newDirection.angleFrom(half);
+			if (angle2 > angle) {
+				angle *= -1;
+			}
+
+			this._direction = newDirection;
+			this._rotate(angle);
+		}, this);
+
+		this._updatePolygonPointsAttr();
 		this._applyClasses();
 		return this;
 	},
@@ -82,15 +107,18 @@ var Polygon = Shape.extend({
 		this._applyClasses();
 	},
 
+
 	_applyClasses: function() {
 		if (this._svg) {
 			this._svg.attr("class", 'polygon ' + this._type);
 		}
 	},
 
+
 	invertAtCircle: function(circle) {
 		return geom.invertPolygon(this, circle);
 	},
+
 
 	remove: function() {
 		this._svg.remove();
@@ -111,6 +139,7 @@ var Polygon = Shape.extend({
 		}
 	},
 
+
 	setCenter: function(x, y) {
 		// calculate diff to current center
 		var center = this.getCenter();
@@ -122,6 +151,20 @@ var Polygon = Shape.extend({
 			point.y += diffY;
 		});
 
+		this._updatePolygonPointsAttr();
+	},
+
+
+	_rotate: function(angle) {
+		var c = this.getCenter();
+		var vCenter = $V([c.x, c.y]);
+
+		$.each(this._points, function(i, point) {
+			var v = $V([point.x, point.y]);
+			v = v.rotate(angle, vCenter);
+			point.x = v.e(1);
+			point.y = v.e(2);
+		});
 		this._updatePolygonPointsAttr();
 	}
 });
@@ -137,6 +180,7 @@ var Rectangle = Polygon.extend({
 		this._super([p1, p2, p3, p4]);
 	}
 });
+
 
 var Triangle = Polygon.extend({
 	init: function(x, y, r) {

@@ -164,6 +164,13 @@ g.polygon.normal > .rotator {
 	cursor: pointer;
 }
 
+g.line.inverted > .rotator,
+g.circle.inverted > .rotator,
+g.polygon.inverted > .rotator {
+	/* Hide the origin of inverted shapes */
+	visibility: hidden;
+}
+
 
 
 /* Circle */
