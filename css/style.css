@@ -131,7 +131,7 @@ g.circle.inversion > .circle {
 g.circle.inversion > .origin {
 	stroke: rgb(117, 0, 0);
 	fill: rgba(255, 0, 0, 0.2);
-	cursor: move;
+	cursor: pointer;
 }
 
 
@@ -143,7 +143,7 @@ g.circle.normal > .origin,
 g.polygon.normal > .origin {
 	stroke: rgba(0, 0, 0, 0.8);
 	fill: rgba(0, 0, 255, 0.2);
-	cursor: move;
+	cursor: pointer;
 }
 
 g.line.inverted > .origin,
@@ -153,13 +153,23 @@ g.polygon.inverted > .origin {
 	visibility: hidden;
 }
 
+/**
+ * Rotate Handler
+ */
+g.line.normal > .rotator,
+g.circle.normal > .rotator,
+g.polygon.normal > .rotator {
+	stroke: rgba(0, 0, 0, 0.8);
+	fill: rgba(255, 255, 0, 0.2);
+	cursor: pointer;
+}
 
 
 
 /* Circle */
 g.circle.normal > .circle {
 	stroke: #888;
-	cursor: nesw-resize;
+	cursor: pointer;
 }
 
 g.circle.inverted > .circle {

@@ -98,7 +98,6 @@ PresetLoader.presets = {
 		}
 
 		// Lines
-		var radius = 60;
 		points = Circle.calculatePoints(0, 0, 400, 4, Math.PI/4);
 		for (var i = 0; i < points.length; ++i) {
 			var y = 2*(i%2) - 1;

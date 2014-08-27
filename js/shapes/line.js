@@ -40,9 +40,24 @@ var Line = Shape.extend({
 			.attr("r", 5)
 			.classed("origin", "true");
 
+		var rotator = this._svg.append('circle')
+			.attr("cx", this._origin.x + this._vector.x*25)
+			.attr("cy", this._origin.y + this._vector.y*25)
+			.attr("r", 5)
+			.classed("rotator", "true");
+
 
 		var self = this;
 		Shape.makeDraggable(origin, svg.canvas, this.setPosition, this);
+
+		Shape.makeDraggable(rotator, svg.canvas, function(x, y) {
+			var dx = x - this._origin.x;
+			var dy = y - this._origin.y;
+			this._vector = new geom.Vector(dx, dy).normalized();
+			this.remove();
+			this.showOn(this._parent);
+			this.trigger('move');
+		}, this);
 
 		this._applyClasses();
 
