@@ -49,7 +49,7 @@ PresetLoader.presets = {
 		}
 	},
 
-	'Demo': function(canvas) {
+	'Demo1': function(canvas) {
 		var r = 200;
 		var x = 0;
 		var y = 0;
@@ -57,31 +57,53 @@ PresetLoader.presets = {
 		var invCircle = new Circle(x, y, r);
 		canvas.addInversionCircle(invCircle);
 
-		// var invCircle2 = new Circle(x, y-363.5, r);
-		// canvas.addInversionCircle(invCircle2);
+		var invCircle2 = new Circle(x, y-363.5, r);
+		canvas.addInversionCircle(invCircle2);
 
-		// var metaCircle = new Circle(x, y, 250);
-		// var points = metaCircle.calculatePoints(10);
-		// $.each(points, function(i, p) {
-		// 	canvas.addShape(new Circle(p.x, p.y, 19.6));
-		// });
+		var metaCircle = new Circle(x, y, 250);
+		var points = metaCircle.calculatePoints(10);
+		$.each(points, function(i, p) {
+			canvas.addShape(new Circle(p.x, p.y, 19.6));
+		});
 
-		// canvas.addShape(new Rectangle(-20, 180, 40, 40));
-		// canvas.addShape(new Rectangle(-20, 100, 40, 40));
-		// canvas.addShape(new Rectangle(-20, 20, 40, 40));
-		// canvas.addShape(new Rectangle(-20, -60, 40, 40));
-		// canvas.addShape(new Rectangle(-20, -140, 40, 40));
-		// canvas.addShape(new Rectangle(-20, -220, 40, 40));
-		// canvas.addShape(new Line(0, 100, 1, -1));
-		// canvas.addShape(new Triangle(-100, 100, 100));
+		canvas.addShape(new Rectangle(-20, 180, 40, 40));
+		canvas.addShape(new Rectangle(-20, 100, 40, 40));
+		canvas.addShape(new Rectangle(-20, 20, 40, 40));
+		canvas.addShape(new Rectangle(-20, -60, 40, 40));
+		canvas.addShape(new Rectangle(-20, -140, 40, 40));
+		canvas.addShape(new Rectangle(-20, -220, 40, 40));
+	},
 
-		canvas.addShape(new LineSegment(r, r, -r, -r));
-		canvas.addShape(new LineSegment(r, -r, -r, r));
-		// canvas.addShape(new CircleSegment(0, 0, 60, 0, 2*Math.PI));
-		// canvas.addShape(new CircleSegment(0, 0, 80, 0, 3*Math.PI/2));
-		// canvas.addShape(new CircleSegment(0, 0, 100, 0, Math.PI));
-		// canvas.addShape(new CircleSegment(0, 0, 120, 0, Math.PI/2));
-		// canvas.addShape(new CircleSegment(0, 0, 140, Math.PI/2, 0));
-		// canvas.addShape(new CircleSegment(0, 0, 160, 3*Math.PI/2, Math.PI/2));
+	'Demo2': function(canvas) {
+		var r = 200;
+		var x = 0;
+		var y = 0;
+		var points = [];
+
+		var invCircle = new Circle(x, y, r);
+		canvas.addInversionCircle(invCircle);
+
+		// Rectangles
+		var rectSize = 60;
+		points = Circle.calculatePoints(0, 0, 300, 4);
+		for (var i = 0; i < points.length; ++i) {
+			canvas.addShape(new Rectangle(points[i].x-rectSize/2, points[i].y-rectSize/2, rectSize, rectSize));
+		}
+
+		// Circles
+		var radius = 60;
+		points = Circle.calculatePoints(0, 0, 300, 4, Math.PI/4);
+		for (var i = 0; i < points.length; ++i) {
+			canvas.addShape(new Circle(points[i].x, points[i].y, radius));
+		}
+
+		// Lines
+		var radius = 60;
+		points = Circle.calculatePoints(0, 0, 400, 4, Math.PI/4);
+		for (var i = 0; i < points.length; ++i) {
+			var y = 2*(i%2) - 1;
+			canvas.addShape(new Line(points[i].x, points[i].y, 1, y));
+		}
+
 	}
 }
