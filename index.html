@@ -24,17 +24,19 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div class="header">
+	<div id="settings">
 		<label><input id="cbShowOriginal" type="checkbox" checked /> Show original shapes</label>
 		<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
 		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
 		<button id="btnConvertInvertedShapes">Convert Shapes</button>
 	</div>
 	<div id="contextMenu">
-		<a id="btnSpawnCircle">Spawn Circle</a>
-		<a id="btnSpawnLine">Spawn Line</a>
-		<a id="btnSpawnRectangle">Spawn Rectangle</a>
-		<a id="btnSpawnTriangle">Spawn Triangle</a>
+		<div class="contextMenuWrapper">
+			<a id="btnSpawnCircle">Spawn Circle</a>
+			<a id="btnSpawnLine">Spawn Line</a>
+			<a id="btnSpawnRectangle">Spawn Rectangle</a>
+			<a id="btnSpawnTriangle">Spawn Triangle</a>
+		</div>
 	</div>
 	<div id="presetLoader"></div>
 	<div class="canvas"></div>
