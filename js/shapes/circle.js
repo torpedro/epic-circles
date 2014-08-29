@@ -61,7 +61,7 @@ var Circle = TransformableShape.extend({
 		this._circle.attr('cy', y);
 		this._origin.attr('cx', x);
 		this._origin.attr('cy', y);
-		this.trigger('move');
+		this.trigger('update');
 		return this;
 	},
 
@@ -69,7 +69,7 @@ var Circle = TransformableShape.extend({
 		// TODO: Prevent resizing if it's an inverted circle
 		this.r = r;
 		this._circle.attr('r', r);
-		this.trigger('move');
+		this.trigger('update');
 		return this;
 	},
 

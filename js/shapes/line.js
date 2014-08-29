@@ -58,7 +58,7 @@ var Line = TransformableShape.extend({
 		this._vector = new geom.Vector(dx, dy).normalized();
 		this.remove();
 		this.render(this._parent);
-		this.trigger('move');
+		this.trigger('update');
 	},
 
 
@@ -67,7 +67,7 @@ var Line = TransformableShape.extend({
 		this._origin.y = y;
 		this.remove();
 		this.render(this._parent);
-		this.trigger('move');
+		this.trigger('update');
 	},
 
 	// @overridden

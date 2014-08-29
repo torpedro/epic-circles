@@ -10,7 +10,7 @@ var Canvas = xbase.Class.extend({
 		this._shapes.push(shape);
 		shape.render(this._gNormalShapes);
 		shape.setClasses('normal');
-		shape.on("move", function() {
+		shape.on("update", function() {
 			self._changed = true;
 		});
 		this._changed = true;
@@ -27,7 +27,7 @@ var Canvas = xbase.Class.extend({
 		this._invertedShapes.push([]);
 		circle.render(this._gInversionCircles);
 		circle.setClasses('inversion');
-		circle.on("move", function() {
+		circle.on("update", function() {
 			self._changed = true;
 		});
 		this._changed = true;
@@ -178,6 +178,7 @@ var Canvas = xbase.Class.extend({
 			}
 		});
 
+		// TODO: Use TransformableShape.makeDraggable
 		var move = function(evt) {
 			self._increaseTransform(evt.clientX - self._lastGrab.x, evt.clientY - self._lastGrab.y);
 			self._lastGrab = {x: evt.clientX, y: evt.clientY};

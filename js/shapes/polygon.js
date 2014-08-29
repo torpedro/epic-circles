@@ -49,7 +49,7 @@ var Polygon = TransformableShape.extend({
 		this._origin.attr('cx', center.x()).attr('cy', center.y());
 		this._rotator.attr('cx', center.x() + this._direction.x()*18).attr('cy', center.y() + this._direction.y()*18);
 
-		this.trigger('move');
+		this.trigger('update');
 	},
 
 
@@ -111,7 +111,7 @@ var Polygon = TransformableShape.extend({
 		var invertedShape = new Polygon(newPoints);
 		return invertedShape;
 	},
-	
+
 
 	getCenter: function() {
 		var xSum = 0,
