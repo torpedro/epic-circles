@@ -4,28 +4,36 @@ if (typeof geom === "undefined") geom = {};
 
 geom.Vector = xbase.Class.extend({
 	init: function(x, y) {
-		this.x = x;
-		this.y = y;
+		if (x instanceof Vector) this._v = x;
+		else this._v = $V([x, y]);
 	},
 
+	x: function(x) {
+		if (!x) return this._v.e(1);
+		this.setElements([x, this.y()]);
+		return this;
+	},
+
+	y: function(y) {
+		if (!y) return this._v.e(2);
+		this.setElements([this.x(), y]);
+		return this;
+	},
 
 	length: function() {
-		return Math.sqrt(this.x * this.x + this.y * this.y);
+		return this._v.distanceFrom($V([0, 0]));
 	},
-
 
 	normalized: function() {
-		var len = this.length();
-		return new geom.Vector(this.x/len, this.y/len);
+		return new geom.Vector(this._v.toUnitVector());
 	},
 
-
-	sub: function(v) {
-		return new Vector(this.x - x, this.y - y);
+	sub: function(geomV) {
+		return new Vector(this._v.subtract(geomV._v));
 	},
 
-	add: function(v) {
-		return new Vector(this.x + x, this.y + y);
+	add: function(geomV) {
+		return new Vector(this._v.add(geomV._v));
 	}
 });
 
@@ -33,14 +41,14 @@ geom.Vector = xbase.Class.extend({
 
 /**
  * Inverts a point at the given inversion circle
- * @param Point point       point to be inverted
- * @param Circle invCircle  inversion circle
+ * @param geom.Vector vector  vector to be inverted
+ * @param Circle invCircle    inversion circle
  * @return Point
  */
-geom.invertPoint = function(point, invCircle) {
+geom.invertVector = function(vector, invCircle) {
 	// OA x OA' = r*r
-	var dx = point.x - invCircle.x,
-		dy = point.y - invCircle.y;
+	var dx = vector.x() - invCircle.x,
+		dy = vector.y() - invCircle.y;
 
 	var sign_x = (dx > 0) ? 1 : -1;
 	var sign_y = (dy > 0) ? 1 : -1;
@@ -61,9 +69,21 @@ geom.invertPoint = function(point, invCircle) {
 	dx2 *= sign_x;
 	dy2 *= sign_y;
 
-	return new Point(invCircle.x + dx2, invCircle.y + dy2);
+	return new geom.Vector(invCircle.x + dx2, invCircle.y + dy2);
 }
 
+
+/**
+ * Inverts a point at the given inversion circle
+ * @param Point point       point to be inverted
+ * @param Circle invCircle  inversion circle
+ * @return Point
+ */
+geom.invertPoint = function(point, invCircle) {
+	var v1 = new geom.Vector(point.x, point.y);
+	var v2 = geom.invertVector(v1, invCircle);
+	return new Point(v2.x(), v2.y());
+}
 
 
 /**
@@ -79,12 +99,12 @@ geom.invertCircle = function(circle, invCircle) {
 	var vn = v.normalized();
 
 	var p1 = new Point(
-		circle.x + vn.x * circle.r,
-		circle.y + vn.y * circle.r
+		circle.x + vn.x() * circle.r,
+		circle.y + vn.y() * circle.r
 	);
 	var p2 = new Point(
-		circle.x - vn.x * circle.r,
-		circle.y - vn.y * circle.r
+		circle.x - vn.x() * circle.r,
+		circle.y - vn.y() * circle.r
 	);
 
 	// Check if the closest point is the origin
@@ -112,8 +132,8 @@ geom.invertCircle = function(circle, invCircle) {
 		p1i.y - p2i.y
 	);
 	var r_new = v_diameter.length() / 2;
-	var cx = p1i.x - v_diameter.x/2;
-	var cy = p1i.y - v_diameter.y/2;
+	var cx = p1i.x - v_diameter.x()/2;
+	var cy = p1i.y - v_diameter.y()/2;
 
 
 	var newCircle = new Circle(cx, cy, r_new);

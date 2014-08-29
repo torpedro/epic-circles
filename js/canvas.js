@@ -8,8 +8,8 @@ var Canvas = xbase.Class.extend({
 	addShape: function(shape) {
 		var self = this;
 		this._shapes.push(shape);
-		shape.showOn(this._gNormalShapes);
-		shape.setType('normal');
+		shape.render(this._gNormalShapes);
+		shape.setClasses('normal');
 		shape.on("move", function() {
 			self._changed = true;
 		});
@@ -25,8 +25,8 @@ var Canvas = xbase.Class.extend({
 		var self = this;
 		this._inversionCircles.push(circle);
 		this._invertedShapes.push([]);
-		circle.showOn(this._gInversionCircles);
-		circle.setType('inversion');
+		circle.render(this._gInversionCircles);
+		circle.setClasses('inversion');
 		circle.on("move", function() {
 			self._changed = true;
 		});
@@ -306,8 +306,8 @@ var Canvas = xbase.Class.extend({
 			outShapes.push(shape);
 		}
 		if (shape) {
-			shape.setType('inverted');
-			shape.showOn(this._gInvertedShapes);
+			shape.setClasses('inverted');
+			shape.render(this._gInvertedShapes);
 		}
 	},
 

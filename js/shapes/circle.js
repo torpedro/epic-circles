@@ -1,15 +1,19 @@
 
-
-var Circle = Shape.extend({
+/**
+ * @class Circle
+ * Implementation of a circle shape
+ */
+var Circle = TransformableShape.extend({
+	// @overridden
 	init: function(x, y, r) {
 		this._super();
+		this._shapeKind = 'circle';
 		this.x = x;
 		this.y = y;
 		this.r = r;
-		this.setType("normal");
 	},
 
-
+	// @overridden
 	copy: function(otherCircle) {
 		if (!(otherCircle instanceof Circle)) return false;
 		this.setPosition(otherCircle.x, otherCircle.y);
@@ -17,14 +21,11 @@ var Circle = Shape.extend({
 		return true;
 	},
 
-
-	_showOn: function(svg) {
-		if (this._svg) {
-			this._svg.style('visibility', '');
-			return this;
-		}
-
+	// @overridden
+	render: function(svg) {
 		var self = this;
+
+		this._parent = svg;
 		this._svg = svg.append("g").classed("circle", true);
 
 		this._circle = this._svg.append("circle")
@@ -40,30 +41,25 @@ var Circle = Shape.extend({
 			.classed("origin", "true");
 
 		this._applyClasses();
-
-		// Move Handler
-		Shape.makeDraggable(this._origin, svg.canvas, this.setPosition, this);
-
-		// Resize Handler
-		Shape.makeDraggable(this._circle, svg.canvas, function(x, y) {
-			var r = $V([x, y]).distanceFrom($V([self.x, self.y]));
-			self.setRadius(r);
-		});
+		this._setMoveHandle(this._origin);
+		this._setResizeHandle(this._circle);
 
 		return this;
 	},
 
-	
-	_hide: function() {
-		this._svg.style('visibility', 'hidden');
+	// @overridden
+	invertAtCircle: function(invCircle) {
+		return geom.invertCircle(this, invCircle);
 	},
 
+	// @overridden
+	onMove: function(x, y) { return this.setPosition(x, y); },
 
-	remove: function() {
-		this._svg.remove();
-		this._svg = null;
+	// @overridden
+	onResize: function(x, y) {
+		var r = $V([x, y]).distanceFrom($V([this.x, this.y]));
+		this.setRadius(r);
 	},
-
 
 	setPosition: function(x, y) {
 		this.x = x;
@@ -73,45 +69,15 @@ var Circle = Shape.extend({
 		this._origin.attr('cx', x);
 		this._origin.attr('cy', y);
 		this.trigger('move');
+		return this;
 	},
 
-
 	setRadius: function(r) {
-		// Prevent resizing if it's an inverted circle
+		// TODO: Prevent resizing if it's an inverted circle
 		this.r = r;
 		this._circle.attr('r', r);
 		this.trigger('move');
-	},
-
-
-	calculatePoints: function(num) {
-		var step = (2*3.14159) / num;
-		var points = [];
-		for (var i = 0; i < num; ++i) {
-			var p = new Point(
-				this.x + Math.sin(step*i) * this.r,
-				this.y + Math.cos(step*i) * this.r
-			);
-			points.push(p);
-		}
-		return points;
-	},
-
-
-	setType: function(type) {
-		this._type = type;
-		this._applyClasses();
-	},
-
-
-	_applyClasses: function() {
-		if (this._svg) {
-			this._svg.attr("class", "circle " + this._type);
-		}
-	},
-
-	invertAtCircle: function(invCircle) {
-		return geom.invertCircle(this, invCircle);
+		return this;
 	}
 });
 

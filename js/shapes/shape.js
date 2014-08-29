@@ -1,72 +1,99 @@
 
-
+/**
+ * @class Shape
+ * Abstract base class for any shape
+ */
 var Shape = xbase.Control.extend({
-	init: function() {
-		this._super();
-		this.isVisible = false;
+	render: function(svg) {
+		console.error("Shape.render was not implemented!");
 	},
-	
-
-	showOn: function(svg) {
-		if (!this._svg || !this.isVisible) {
-			this._showOn(svg);
-			this.isVisible = true;
-		}
-		return this;
-	},
-
-
-	hide: function() {
-		if (this._svg && this.isVisible) {
-			this._hide();
-			this.isVisible = false;
-		}
-		return this;
-	},
-
 
 	copy: function(shape) {
-		console.error("Method copy was not implemented!");
+		console.error("Shape.copy was not overridden!");
 	},
-
-
-	_hide: function() {
-		console.error("Method _hide was not implemented!");
-	},
-
-
-	_showOn: function(svg) {
-		console.error("Method _showOn was not implemented!");
-	},
-
-
-	setType: function(svg) {
-		console.warn("Method setType was not implemented!");
-	},
-
-
-	remove: function() {
-		this.hide();
-		console.warn("Method remove was not implemented! Just hiding!");
-	},
-
 
 	invertAtCircle: function(circle) {
-		console.error("Method invertAtCircle was not implemented!");
+		console.error("Shape.invertAtCircle was not overridden!");
+	},
+
+	show: function() {
+		this.isVisible = true;
+		this._svg.style('visibility', '');
+		return this;
+	},
+
+	hide: function() {
+		this.isVisible = false;
+		this._svg.style('visibility', 'hidden');
+		return this;
+	},
+
+	canvas: function() {
+		return this._parent.canvas;
+	},
+
+	remove: function() {
+		this._svg.remove();
+		this._svg = null;
+		return this;
+	},
+
+	setClasses: function(classes) {
+		this._classes = classes;
+		this._applyClasses();
+		return this;
+	},
+
+	_applyClasses: function() {
+		if (this._svg) {
+			this._svg.attr("class", this._shapeKind + ' ' + this._classes);
+		}
+		return this;
+	},
+
+	init: function() {
+		this._super();
+		this._svg = null;
+		this._parent = null;
+		this._shapeKind = 'NoType';
+		this.isVisible = false;
+	}
+});
+
+
+/**
+ * @class TransformableShape
+ * Extension of the abstract base class Shape
+ */
+var TransformableShape = Shape.extend({
+	onMove: function(x, y) {
+		console.warn("TransformableShape.onMove was not overridden!")
+	},
+
+	onResize: function(x, y) {
+		console.warn("TransformableShape.onResize was not overridden!")
+	},
+
+	_setMoveHandle: function(svgHandle) {
+		TransformableShape.makeDraggable(svgHandle, this, this.onMove);
+	},
+
+	_setResizeHandle: function(svgHandle) {
+		TransformableShape.makeDraggable(svgHandle, this, this.onResize);
 	}
 });
 
 
 
-Shape.makeDraggable = function(draggableSVG, canvas, callback, context) {
-	var move = function(e) {
-		var p = canvas.convertScreen(e.clientX, e.clientY);
-		callback.call(context, p.x, p.y);
+TransformableShape.makeDraggable = function(draggableSVG, shape, callback) {
+	var moveCallback = function(e) {
+		var p = shape.canvas().convertScreen(e.clientX, e.clientY);
+		callback.call(shape, p.x, p.y);
 	};
 	draggableSVG.on("mousedown", function() {
-		window.addEventListener('mousemove', move, true);
+		window.addEventListener('mousemove', moveCallback, true);
 	}, false);
 	window.addEventListener("mouseup", function() {
-		window.removeEventListener('mousemove', move, true);
+		window.removeEventListener('mousemove', moveCallback, true);
 	}, false);
 };

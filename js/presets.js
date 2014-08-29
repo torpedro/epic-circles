@@ -103,6 +103,21 @@ PresetLoader.presets = {
 			var y = 2*(i%2) - 1;
 			canvas.addShape(new Line(points[i].x, points[i].y, 1, y));
 		}
+	},
 
+	'CircleTest': function(canvas) {
+		var r = 200;
+		var x = 0;
+		var y = 0;
+		var points = [];
+
+		var invCircle = new Circle(x, y, r);
+		canvas.addInversionCircle(invCircle);
+		// Circles
+		var radius = 60;
+		points = Circle.calculatePoints(0, 0, 300, 8, Math.PI/4);
+		for (var i = 0; i < points.length; ++i) {
+			canvas.addShape(new Circle(points[i].x, points[i].y, radius));
+		}
 	}
 }
