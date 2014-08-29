@@ -60,8 +60,7 @@ PresetLoader.presets = {
 		var invCircle2 = new Circle(x, y-363.5, r);
 		canvas.addInversionCircle(invCircle2);
 
-		var metaCircle = new Circle(x, y, 250);
-		var points = metaCircle.calculatePoints(10);
+		var points = Circle.calculatePoints(x, y, 250, 10);
 		$.each(points, function(i, p) {
 			canvas.addShape(new Circle(p.x, p.y, 19.6));
 		});

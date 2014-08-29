@@ -23,8 +23,6 @@ var Circle = TransformableShape.extend({
 
 	// @overridden
 	render: function(svg) {
-		var self = this;
-
 		this._parent = svg;
 		this._svg = svg.append("g").classed("circle", true);
 

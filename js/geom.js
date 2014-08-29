@@ -10,13 +10,13 @@ geom.Vector = xbase.Class.extend({
 
 	x: function(x) {
 		if (!x) return this._v.e(1);
-		this.setElements([x, this.y()]);
+		this._v.setElements([x, this.y()]);
 		return this;
 	},
 
 	y: function(y) {
 		if (!y) return this._v.e(2);
-		this.setElements([this.x(), y]);
+		this._v.setElements([this.x(), y]);
 		return this;
 	},
 
@@ -28,12 +28,21 @@ geom.Vector = xbase.Class.extend({
 		return new geom.Vector(this._v.toUnitVector());
 	},
 
-	sub: function(geomV) {
-		return new Vector(this._v.subtract(geomV._v));
+	angleFrom: function(vector) {
+		return this._v.angleFrom(vector._v);
 	},
 
-	add: function(geomV) {
-		return new Vector(this._v.add(geomV._v));
+	rotate: function(angle, vector) {
+		if (!vector) vector = new geom.Vector(0, 0);
+		return new geom.Vector(this._v.rotate(angle, vector._v));
+	},
+
+	sub: function(vector) {
+		return new geom.Vector(this._v.subtract(vector._v));
+	},
+
+	add: function(vector) {
+		return new geom.Vector(this._v.add(vector._v));
 	}
 });
 
@@ -177,7 +186,7 @@ geom.invertLine = function(line, invCircle) {
 	// n is unit vector of line
 	// a is a point on the line
 	var a = $V([line._origin.x, line._origin.y]);
-	var n = $V([line._vector.x, line._vector.y]);
+	var n = $V([line._vector.x(), line._vector.y()]);
 
 	// p is the point of which we want to know the distance
 	var p = $V([invCircle.x, invCircle.y]);
