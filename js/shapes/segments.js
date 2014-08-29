@@ -54,7 +54,29 @@ var LineSegment = Shape.extend({
 
 
 	invertAtCircle: function(invCircle) {
-		return geom.invertLineSegment(this, invCircle);
+		// TODO: This is incomplete!
+		var dx = this.x2 - this.x1;
+		var dy = this.y2 - this.y1;
+		var line = new Line(this.x1, this.y1, dx, dy);
+
+		var circle = geom.invertLine(line, invCircle);
+		var r = circle.r;
+		var x = circle.x;
+		var y = circle.y;
+		var p1 = geom.invertPoint(new Point(this.x1, this.y1), invCircle);
+		var p2 = geom.invertPoint(new Point(this.x2, this.y2), invCircle);
+		if (dx * dy >= 0) {
+			var tmp = p2;
+			p2 = p1;
+			p1 = tmp;
+		}
+		var ang1 = Math.atan2((p1.x - x), -(p1.y - y)) + 2*Math.PI;
+		var ang2 = Math.atan2((p2.x - x), -(p2.y - y)) + 2*Math.PI;
+
+		if (ang1 > ang2) ang1 -= 2 * Math.PI;
+		// console.log(ang1, ang2);
+
+		return new CircleSegment(x, y, r, ang1, ang2);
 	}
 });
 

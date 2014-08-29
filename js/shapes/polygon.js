@@ -101,9 +101,17 @@ var Polygon = TransformableShape.extend({
 		this._rotate(angle);
 	},
 
+	// @overridden
 	invertAtCircle: function(circle) {
-		return geom.invertPolygon(this, circle);
+		var newPoints = [];
+		$.each(this._points, function(i, pt) {
+			var invPt = pt.invertAtCircle(circle);
+			newPoints.push(invPt);
+		});
+		var invertedShape = new Polygon(newPoints);
+		return invertedShape;
 	},
+	
 
 	getCenter: function() {
 		var xSum = 0,

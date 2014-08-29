@@ -8,7 +8,7 @@ var Line = TransformableShape.extend({
 	init: function(x, y, dx, dy) {
 		this._super();
 		this._origin = new Point(x, y);
-		this._vector = new geom.Vector(dx, dy).normalized();
+		this._vector = gVector(dx, dy).normalized();
 		this._shapeKind = 'line';
 	},
 
@@ -62,17 +62,51 @@ var Line = TransformableShape.extend({
 	},
 
 
-	// @overridden
-	invertAtCircle: function(invCircle) {
-		return geom.invertLine(this, invCircle);
-	},
-
 	setPosition: function(x, y) {
 		this._origin.x = x;
 		this._origin.y = y;
 		this.remove();
 		this.render(this._parent);
 		this.trigger('move');
+	},
+
+	// @overridden
+	invertAtCircle: function(invCircle) {
+		// Calculate the closest point of the line to the inversion circle
+		// This point and the origin of the invCircle are across from each other
+		// By knowing this we can calculate the origin and radius.
+
+		// Calculate the closest point of the line:
+		// Line => x = a + tn
+		// n is unit vector of line
+		// a is a point on the line
+		var a = gVector(this._origin.x, this._origin.y);
+		var n = this._vector;
+
+		// p is the point of which we want to know the distance
+		var p = gVector(invCircle.x, invCircle.y);
+
+
+		// Calculate the difference vector from the point to the line
+		// See: http://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line#Vector_formulation
+		var diff = a.sub(p).sub(n.mul(a.sub(p).dot(n)));
+
+		if (diff.length() == 0) {
+			// The line is going through the circles origin
+			// TODO: Inversion is the line itself
+			return null;
+		}
+		// Calculate the closest point
+		// And invert it
+		var p2 = p.add(diff);
+		var p2i = geom.invertVector(p2, invCircle);
+
+		// Now we construct the circle out of p2i and the origin of the inversion circle
+		var cx = invCircle.x + ((p2i.x() - invCircle.x) / 2);
+		var cy = invCircle.y + ((p2i.y() - invCircle.y) / 2);
+		var r = $V([p2i.x() - invCircle.x, p2i.y() - invCircle.y]).distanceFrom($V([0, 0])) / 2;
+
+		return new Circle(cx, cy, r);
 	},
 
 });

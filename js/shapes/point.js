@@ -31,8 +31,13 @@ var Point = Shape.extend({
 	},
 
 
+	/**
+	 * Inverts this point at the given circle
+	 */
 	invertAtCircle: function(circle) {
-		return geom.invertPoint(this, circle);
+		var v1 = new geom.Vector(this.x, this.y);
+		var v2 = geom.invertVector(v1, circle);
+		return new Point(v2.x(), v2.y());
 	}
 });
 

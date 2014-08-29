@@ -46,11 +46,6 @@ var Circle = TransformableShape.extend({
 	},
 
 	// @overridden
-	invertAtCircle: function(invCircle) {
-		return geom.invertCircle(this, invCircle);
-	},
-
-	// @overridden
 	onMove: function(x, y) { return this.setPosition(x, y); },
 
 	// @overridden
@@ -76,6 +71,48 @@ var Circle = TransformableShape.extend({
 		this._circle.attr('r', r);
 		this.trigger('move');
 		return this;
+	},
+
+
+	// @overridden
+	invertAtCircle: function(invCircle) {
+		// calculate closest and farthest point of circle
+		// invert those and calculate center and radius
+		var vn = gVector(invCircle.x - this.x, invCircle.y - this.y).normalized();
+
+		var p1 = gVector(
+			this.x + vn.x() * this.r,
+			this.y + vn.y() * this.r
+		);
+		var p2 = gVector(
+			this.x - vn.x() * this.r,
+			this.y - vn.y() * this.r
+		);
+
+		// Check if the closest point is the origin
+		// If that's the case then the inversion is a line
+		if (p1.x() == invCircle.x && p1.y() == invCircle.y) {
+			// p2 inverted is a point on the line
+			var origin = geom.invertVector(p2, invCircle)
+
+			// we also need to calculate the direction
+			var diff = p1.sub(p2);
+			var direction = diff.rotate(Math.PI/2);
+
+			return new Line(origin.x, origin.y, direction.x(), direction.y());
+		}
+
+		// Invert points
+		var p1i = geom.invertVector(p1, invCircle);
+		var p2i = geom.invertVector(p2, invCircle);
+
+		// Calculate origin and radius of new circle
+		var v_diameter = p1i.sub(p2i);
+		var r_new = v_diameter.length() / 2;
+		var center = p1i.sub(v_diameter.mul(0.5));
+
+		var newCircle = new Circle(center.x(), center.y(), r_new);
+		return newCircle;
 	}
 });
 
