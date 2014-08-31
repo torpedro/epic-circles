@@ -216,6 +216,12 @@ var Canvas = xbase.Class.extend({
 				e.preventDefault();
 			});
 
+			$('#btnSpawnInversionCircle').click(function() {
+				var center = self.convertScreen(contextX, contextY);
+				var shape = new Circle(center.x, center.y, 100);
+				self.addInversionCircle(shape);
+			});
+
 			$('#btnSpawnCircle').click(function() {
 				var center = self.convertScreen(contextX, contextY);
 				var shape = new Circle(center.x, center.y, 100);

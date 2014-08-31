@@ -46,7 +46,7 @@ var Shape = xbase.Control.extend({
 
 	_applyClasses: function() {
 		if (this._svg) {
-			this._svg.attr("class", this._shapeKind + ' ' + this._classes);
+			this._svg.attr("class", 'shape ' + this._shapeKind + ' ' + this._classes);
 		}
 		return this;
 	},

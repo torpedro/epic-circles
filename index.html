@@ -3,8 +3,8 @@
 <head>
 	<title>Epic Circles</title>
 
-	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script type="text/javascript" src="js/lib/raphael-min.js"></script>
+	<script type="text/javascript" src="js/lib/d3.v3.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/lib/xbase-latest-full.js"></script>
 	<script type="text/javascript" src="js/lib/sylvester.js"></script>
@@ -28,10 +28,11 @@
 		<label><input id="cbShowOriginal" type="checkbox" checked /> Show original shapes</label>
 		<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
 		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
-		<button id="btnConvertInvertedShapes">Convert Shapes</button>
+		<!-- <button id="btnConvertInvertedShapes">Convert Shapes</button> -->
 	</div>
 	<div id="contextMenu">
 		<div class="contextMenuWrapper">
+			<a id="btnSpawnInversionCircle">Spawn Inversion Circle</a>
 			<a id="btnSpawnCircle">Spawn Circle</a>
 			<a id="btnSpawnLine">Spawn Line</a>
 			<a id="btnSpawnRectangle">Spawn Rectangle</a>

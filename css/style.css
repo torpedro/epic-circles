@@ -118,12 +118,15 @@ div {
 	cursor: grabbing;
 }
 
-svg circle,
-svg line,
-svg polygon {
+
+svg .shape {
 	fill: none;
 	stroke-width: 1px;
 	stroke: black;
+}
+
+svg .shape.normal {
+	stroke: rgba(30, 30, 200, 0.4);
 }
 
 svg > .background {
@@ -154,17 +157,13 @@ g.circle.inversion > .origin {
 /**
  * Move Handlers for Circles, Lines and Polygons
  */
-g.line.normal > .origin,
-g.circle.normal > .origin,
-g.polygon.normal > .origin {
+.shape.normal > .origin {
 	stroke: rgba(0, 0, 0, 0.8);
 	fill: rgba(0, 0, 255, 0.2);
 	cursor: pointer;
 }
 
-g.line.inverted > .origin,
-g.circle.inverted > .origin,
-g.polygon.inverted > .origin {
+.shape.inverted > .origin {
 	/* Hide the origin of inverted shapes */
 	visibility: hidden;
 }
@@ -172,17 +171,13 @@ g.polygon.inverted > .origin {
 /**
  * Rotate Handler
  */
-g.line.normal > .rotator,
-g.circle.normal > .rotator,
-g.polygon.normal > .rotator {
+.shape.normal > .rotator {
 	stroke: rgba(0, 0, 0, 0.8);
 	fill: rgba(255, 255, 0, 0.2);
 	cursor: pointer;
 }
 
-g.line.inverted > .rotator,
-g.circle.inverted > .rotator,
-g.polygon.inverted > .rotator {
+.shape.inverted > .rotator {
 	/* Hide the origin of inverted shapes */
 	visibility: hidden;
 }
@@ -191,17 +186,16 @@ g.polygon.inverted > .rotator {
 
 /* Circle */
 g.circle.normal > .circle {
-	stroke: #888;
 	cursor: pointer;
 }
 
 g.circle.inverted > .circle {
-	stroke: rgba(0, 0, 0, 0.7);
+
 }
 
 /* Polygon */
 g.polygon.normal > polygon {
-	stroke: #888;
+
 }
 
 g.polygon.inverted > polygon {
@@ -210,12 +204,9 @@ g.polygon.inverted > polygon {
 
 /* Line */
 g.line.normal > line {
-	stroke: #888;
+
 }
 
 g.line.inverted > line {
-}
 
-.circleSegment {
-	stroke: black;
 }
