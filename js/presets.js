@@ -15,12 +15,12 @@ PresetLoader.load = function(preset, canvas) {
 }
 
 PresetLoader.presets = {
-	'Clear': function(canvas) {
+	'clear': function(canvas) {
 		var invCircle = new Circle(0, 0, 100);
 		canvas.addInversionCircle(invCircle);
 	},
 
-	'Epic-Circles': function(canvas) {
+	'epic-circles': function(canvas) {
 		// radius and position of big circle
 		var r = 200;
 		var x = 0;
@@ -49,7 +49,7 @@ PresetLoader.presets = {
 		}
 	},
 
-	'Demo1': function(canvas) {
+	'demo1': function(canvas) {
 		var r = 200;
 		var x = 0;
 		var y = 0;
@@ -73,7 +73,7 @@ PresetLoader.presets = {
 		canvas.addShape(new Rectangle(-20, -220, 40, 40));
 	},
 
-	'Demo2': function(canvas) {
+	'demo2': function(canvas) {
 		var r = 200;
 		var x = 0;
 		var y = 0;
@@ -104,7 +104,7 @@ PresetLoader.presets = {
 		}
 	},
 
-	'CircleTest': function(canvas) {
+	'circle-test': function(canvas) {
 		var r = 200;
 		var x = 0;
 		var y = 0;

@@ -24,6 +24,11 @@ div {
 	padding: 0px;
 }
 
+hr {
+	border: 0px;
+	border-top: 1px solid #555;
+}
+
 .footer {
 	position: absolute;
 	width: 100%;
@@ -31,35 +36,37 @@ div {
 	bottom: 30px;
 }
 
-#settings {
+.hint {
 	position: absolute;
-	left: 0px;
-	top: 0px;
-	background: white;
-	border-right: 1px solid #555;
-	border-bottom: 1px solid #555;
-	padding: 5px 15px;
-	text-align: left;
+	width: 100%;
+	text-align: center;
+	top: 10px;
+	color: #555;
 }
 
-#settings > label {
-	display: block;
-}
-
-#presetLoader {
+#sideMenu {
 	position: absolute;
 	right: 0px;
 	top: 0px;
 	background: white;
 	border-left: 1px solid #555;
 	border-bottom: 1px solid #555;
-	padding: 5px 15px;
+	padding: 5px 25px 15px 15px;
+	text-align: left;
+	border-bottom-left-radius: 5px;
 }
 
-#presetLoader > a {
+#settings > label {
+	display: block;
+}
+
+#presets {
+	margin-top: 10px;
+}
+#presets > a {
 	display: block;
 	text-align: left;
-	padding: 4px 0px;
+	padding: 4px 0px 0px 10px;
 }
 
 

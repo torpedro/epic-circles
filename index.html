@@ -3,7 +3,7 @@
 <head>
 	<title>Epic Circles</title>
 
-	<script type="text/javascript" src="js/lib/raphael-min.js"></script>
+	<!-- // <script type="text/javascript" src="js/lib/raphael-min.js"></script> -->
 	<script type="text/javascript" src="js/lib/d3.v3.min.js"></script>
 	<script type="text/javascript" src="js/lib/jquery-2.1.1.min.js"></script>
 	<script type="text/javascript" src="js/lib/xbase-latest-full.js"></script>
@@ -24,10 +24,16 @@
 	<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="settings">
-		<label><input id="cbShowOriginal" type="checkbox" checked /> Show original shapes</label>
-		<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
-		<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
+	<a href="https://github.com/torpedro/epic-circles" target="_blank"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/82b228a3648bf44fc1163ef44c62fcc60081495e/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f7265645f6161303030302e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_red_aa0000.png"></a>
+	<div id="sideMenu">
+		<div id="settings">
+			<label><input id="cbShowOriginal" type="checkbox" checked /> Show original shapes</label>
+			<label><input id="cbShowInverted" type="checkbox" checked /> Show inverted shapes</label>
+			<label><input id="cbShowInversionCircles" type="checkbox" checked /> Show inversion circles</label>
+		</div>
+		<div id="presets">
+			Presets
+		</div>
 		<!-- <button id="btnConvertInvertedShapes">Convert Shapes</button> -->
 	</div>
 	<div id="contextMenu">
@@ -39,8 +45,8 @@
 			<a id="btnSpawnTriangle">Spawn Triangle</a>
 		</div>
 	</div>
-	<div id="presetLoader"></div>
 	<div class="canvas"></div>
+	<div class="hint">Hint: Right-click on the canvas to spawn new shapes</div>
 	<div class="footer">Find the sources at Github: <a href="https://github.com/torpedro/epic-circles" target="_blank">https://github.com/torpedro/epic-circles</a></div>
 
 <script type="text/javascript">
@@ -50,7 +56,7 @@ $(function() {
 
 	// Load the clear preset by default
 	var hash = window.location.hash;
-	var preset = (hash && PresetLoader.hasPreset(hash.substring(1))) ? hash.substring(1) : 'Clear';
+	var preset = (hash && PresetLoader.hasPreset(hash.substring(1))) ? hash.substring(1) : 'clear';
 	PresetLoader.load(preset, canvas);
 
 
@@ -61,7 +67,7 @@ $(function() {
 		link.click(function() {
 			PresetLoader.load(key, canvas);
 		});
-		$('#presetLoader').append(link);
+		$('#presets').append(link);
 	});
 
 
